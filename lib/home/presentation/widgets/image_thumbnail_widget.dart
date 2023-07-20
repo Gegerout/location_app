@@ -1,13 +1,14 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
+
+import '../../data/data_sources/local_data.dart';
 
 Future<Widget> imageThumbnailWidget(AssetEntity asset) async {
   final thumbData = await asset.thumbnailData;
   if (thumbData != null) {
     return InkWell(
       onTap: () {
-        //LocalData().getLocationDataFromImage(asset.id);
+        LocalData().getLocationDataFromImage(asset.id);
       },
       child: Image.memory(
         thumbData,
