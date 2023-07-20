@@ -21,6 +21,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   flutter_native_image: ^0.0.6+1
   exifdart: ^0.8.0-dev.2
+  flutter_riverpod: ^2.3.6
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/home/presentation/pages/gallery_page.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,12 +22,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: GalleryScreen()
+        body: GalleryPage()
       ),
     );
   }
@@ -366,7 +369,7 @@ class _GalleryScreenState extends State<GalleryScreen> with WidgetsBindingObserv
         ),
       );
     } else {
-      return Container(); // Placeholder or loading indicator
+      return Container();
     }
   }
 }
