@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/home/data/data_sources/local_data.dart';
 import 'package:location_app/home/presentation/providers/gallery_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-Future<Widget> imageThumbnailWidget(AssetEntity asset, WidgetRef ref) async {
+Future<Widget> imageThumbnailWidget(AssetEntity asset, AssetEntity prevAsset, WidgetRef ref) async {
   final thumbData = await asset.thumbnailData;
   if (thumbData != null) {
     return SingleChildScrollView(
@@ -15,9 +16,13 @@ Future<Widget> imageThumbnailWidget(AssetEntity asset, WidgetRef ref) async {
             ),
           ref.watch(getLocationProvider(asset.id)).when(
                   data: (value) {
-                    return Text("${value.latitude.toString()} ${value.longitude.toString()}");
+                    // return ElevatedButton(onPressed: () async {
+                    //   //await LocalData().getCityDataFromImage(asset.id, prevAsset.id);
+                    // }, child: Text("Press"));
+                    return Text("${value.locationData["city"]}, ${value.locationData["country"]}");
                   },
                   error: (error, stacktrace) {
+                    print(error.toString());
                     return AlertDialog(
                               title: Text(error.toString()),
                               actions: [

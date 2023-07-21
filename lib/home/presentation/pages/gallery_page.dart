@@ -23,7 +23,7 @@ class GalleryPage extends ConsumerWidget {
                 itemCount: value.images.length,
                 itemBuilder: (BuildContext context, int index) {
                   return FutureBuilder<Widget>(
-                    future: imageThumbnailWidget(value.images[index], ref),
+                    future: imageThumbnailWidget(value.images[index], index == 0 ? value.images[index] : value.images[index-1], ref),
                     builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                       if (snapshot.connectionState == ConnectionState.done &&
                           snapshot.hasData) {
