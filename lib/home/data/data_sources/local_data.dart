@@ -52,7 +52,7 @@ class LocalData {
   Future<ImageModel> getCityDataFromImage(String id) async {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
-    const String apiKey = String.fromEnvironment("MAPS_API_KEY");
+    const String apiKey = "a4048f27-af7e-474c-af42-92cd0a03eccb";
     final latLongData = await getLocationDataFromImage(id);
     if (imageLocationData.existsSync()) {
       final List data = await json.decode(imageLocationData.readAsStringSync());
