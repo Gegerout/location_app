@@ -4,7 +4,7 @@ import 'package:location_app/home/data/data_sources/local_data.dart';
 import 'package:location_app/home/presentation/providers/gallery_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-Future<Widget> imageThumbnailWidget(AssetEntity asset, AssetEntity prevAsset, WidgetRef ref) async {
+Future<Widget> imageThumbnailWidget(AssetEntity asset, WidgetRef ref) async {
   final thumbData = await asset.thumbnailData;
   if (thumbData != null) {
     return SingleChildScrollView(
@@ -19,7 +19,7 @@ Future<Widget> imageThumbnailWidget(AssetEntity asset, AssetEntity prevAsset, Wi
                     // return ElevatedButton(onPressed: () async {
                     //   //await LocalData().getCityDataFromImage(asset.id, prevAsset.id);
                     // }, child: Text("Press"));
-                    return Text("${value.locationData["city"]}, ${value.locationData["country"]}");
+                    return Text("${value.locationData.split(",")[0]}, ${value.locationData.split(",")[1]}");
                   },
                   error: (error, stacktrace) {
                     print(error.toString());

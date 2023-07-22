@@ -4,7 +4,7 @@ class ImageModel {
   final String id;
   final double longitude;
   final double latitude;
-  final Map<String, dynamic> locationData;
+  final String locationData;
 
   ImageModel(this.id, this.longitude, this.latitude, this.locationData);
 

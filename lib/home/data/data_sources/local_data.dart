@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:location_app/home/data/models/image_model.dart';
 import 'package:location_app/home/data/models/images_model.dart';
@@ -10,23 +8,14 @@ import 'package:photo_manager/photo_manager.dart';
 
 class LocalData {
   Future<LatLng> getLocationDataFromImage(String id) async {
-    if (await Permission.photos.isDenied) {
-      await Permission.photos.request();
-    }
-    final status = await Permission.photos.status;
+    final albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
 
-    if (status.isGranted) {
-      final albums = await PhotoManager.getAssetPathList(
-        type: RequestType.image,
-        onlyAll: true,
-      );
-
-      final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
-      final file = images.where((element) => element.id == id).first;
-      return file.latlngAsync();
-    } else {
-      throw Error();
-    }
+    final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
+    final file = images.where((element) => element.id == id).first;
+    return file.latlngAsync();
   }
 
   Future<ImagesModel> getImagesFromGallery() async {
