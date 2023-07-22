@@ -1,11 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/home/data/data_sources/local_data.dart';
 import 'package:location_app/home/presentation/providers/gallery_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-Future<Widget> imageThumbnailWidget(AssetEntity asset, WidgetRef ref) async {
-  final thumbData = await asset.thumbnailData;
+Widget imageThumbnailWidget(AssetEntity asset, Uint8List? thumbData, WidgetRef ref) {
   if (thumbData != null) {
     return SingleChildScrollView(
       child: Column(

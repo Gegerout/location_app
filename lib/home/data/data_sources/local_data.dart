@@ -19,30 +19,22 @@ class LocalData {
   }
 
   Future<ImagesModel> getImagesFromGallery() async {
-    if (await Permission.photos.isDenied) {
-      await Permission.photos.request();
-    }
-    final status = await Permission.photos.status;
+    final albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
 
-    if (status.isGranted) {
-      final albums = await PhotoManager.getAssetPathList(
-        type: RequestType.image,
-        onlyAll: true,
-      );
-
-      final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
-      final models = ImagesModel(images);
-      return models;
-    } else {
-      throw Error();
-    }
+    final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
+    final thumbnailData = await Future.wait(
+        images.map((e) async => await e.thumbnailData).toList());
+    final models = ImagesModel(images, thumbnailData);
+    return models;
   }
 
   Future<ImageModel> getCityDataFromImage(String id) async {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
-    const apiUrl =
-        "http://evgeniymuravyov.pythonanywhere.com/getLocation";
+    const apiUrl = "http://evgeniymuravyov.pythonanywhere.com/getLocation";
     final Dio dio = Dio();
 
     final latLongData = await getLocationDataFromImage(id);
@@ -51,7 +43,8 @@ class LocalData {
       "latitude": latLongData.latitude,
     });
 
-    final model = ImageModel(id, latLongData.longitude!, latLongData.latitude!, res.data);
+    final model =
+        ImageModel(id, latLongData.longitude!, latLongData.latitude!, res.data);
     return model;
   }
 }

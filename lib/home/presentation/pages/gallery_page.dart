@@ -22,17 +22,7 @@ class GalleryPage extends ConsumerWidget {
                 ),
                 itemCount: value.images.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return FutureBuilder<Widget>(
-                    future: imageThumbnailWidget(value.images[index], ref),
-                    builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done &&
-                          snapshot.hasData) {
-                        return snapshot.data!;
-                      } else {
-                        return Container(); // Placeholder or loading indicator
-                      }
-                    },
-                  );
+                  return imageThumbnailWidget(value.images[index], value.thumbnailData[index], ref);
                 },
               );
             },
