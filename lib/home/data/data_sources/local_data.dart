@@ -52,43 +52,17 @@ class LocalData {
   Future<ImageModel> getCityDataFromImage(String id) async {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
-    const String apiKey = "a4048f27-af7e-474c-af42-92cd0a03eccb";
-    final latLongData = await getLocationDataFromImage(id);
-    if (imageLocationData.existsSync()) {
-      final List data = await json.decode(imageLocationData.readAsStringSync());
-      print(data.last);
-      final prevLatLongData =
-          LatLng(latitude: data.last["latitude"], longitude: data.last["longitude"]);
-
-      if (prevLatLongData.latitude! - latLongData.latitude! < 0.001 &&
-          prevLatLongData.longitude! - latLongData.longitude! < 0.001) {
-        final List<dynamic> decoded =
-            await json.decode(imageLocationData.readAsStringSync());
-        print("Loaded from storage");
-        return decoded.last;
-      }
-    }
+    const apiUrl =
+        "http://evgeniymuravyov.pythonanywhere.com/getLocation";
     final Dio dio = Dio();
-    final String apiUrl =
-        "https://geocode-maps.yandex.ru/1.x/?apikey=$apiKey&geocode=${latLongData.longitude},${latLongData.latitude}&format=json";
-    final res = await dio.get(apiUrl);
-    List<dynamic> data = [];
-    if (imageLocationData.existsSync()) {
-      data = await json.decode(imageLocationData.readAsStringSync());
-    }
-    final model =
-        ImageModel(id, latLongData.longitude!, latLongData.latitude!, {
-      "country": res.data["response"]?["GeoObjectCollection"]?["featureMember"]
-              [0]?["GeoObject"]?["metaDataProperty"]?["GeocoderMetaData"]
-          ?["Address"]?["Components"][0]?["name"],
-      "city": res.data["response"]?["GeoObjectCollection"]?["featureMember"][0]
-              ?["GeoObject"]?["metaDataProperty"]?["GeocoderMetaData"]
-          ?["Address"]?["Components"][2]?["name"]
+
+    final latLongData = await getLocationDataFromImage(id);
+    final res = await dio.get(apiUrl, queryParameters: {
+      "longitude": latLongData.longitude,
+      "latitude": latLongData.latitude,
     });
-    print("Loaded from remote storage");
-    data.add(model);
-    final encoded = json.encode(data);
-    imageLocationData.writeAsStringSync(encoded);
+
+    final model = ImageModel(id, latLongData.longitude!, latLongData.latitude!, res.data);
     return model;
   }
 }
