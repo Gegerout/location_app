@@ -44,7 +44,7 @@ class LocalData {
     final res = await dio.get(apiUrl, queryParameters: {
       "longitude": latLongData.longitude,
       "latitude": latLongData.latitude,
-    });
+    }, options: Options(receiveTimeout: const Duration(seconds: 60)));
 
     final model =
         ImageModel(id, latLongData.longitude!, latLongData.latitude!, res.data);
