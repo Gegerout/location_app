@@ -27,7 +27,10 @@ class LocalData {
     final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
     final thumbnailData = await Future.wait(
         images.map((e) async => await e.thumbnailData).toList());
-    final models = ImagesModel(images, thumbnailData);
+    final locationData = await Future.wait(
+      images.map((e) async => await getCityDataFromImage(e.id))
+    );
+    final models = ImagesModel(images, thumbnailData, locationData);
     return models;
   }
 

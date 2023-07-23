@@ -22,7 +22,7 @@ class GalleryPage extends ConsumerWidget {
                 ),
                 itemCount: value.images.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return imageThumbnailWidget(value.images[index], value.thumbnailData[index], ref);
+                  return imageThumbnailWidget(value.images[index], value.thumbnailData[index], value.locationData[index].locationData, ref);
                 },
               );
             },
