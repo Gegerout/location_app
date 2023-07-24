@@ -31,9 +31,13 @@ class LocalData {
     final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
     final thumbnailData = await Future.wait(
         images.map((e) async => await e.thumbnailData).toList());
-    final locationData = await Future.wait(
-      images.map((e) async => await getCityDataFromImage(e.id))
-    );
+    List<ImageModel> locationData = [];
+
+    for(int i = 0; i < images.length; i++) {
+      final data = await getCityDataFromImage(images[i].id);
+      locationData.add(data);
+    }
+
     final models = ImagesModel(images, thumbnailData, locationData);
     return models;
   }
@@ -73,7 +77,9 @@ class LocalData {
     }
 
     final latLongData = await getLocationDataFromImage(id);
-    if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 1)) {
+    print("${latLongData.latitude!}, $lastLat");
+    print(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 100));
+    if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 100)) {
       lastLon = latLongData.longitude!;
       lastLat = latLongData.latitude!;
       final model = ImageModel(id, lastLon, lastLat, lastLocation);
