@@ -6,8 +6,11 @@ import 'package:location_app/home/data/models/images_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'dart:math';
 
 class LocalData {
+  final double earthRadius = 6371.0;
+
   Future<LatLng> getLocationDataFromImage(String id) async {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
@@ -70,7 +73,7 @@ class LocalData {
     }
 
     final latLongData = await getLocationDataFromImage(id);
-    if((latLongData.longitude! - lastLon).abs() < 0.1 && (latLongData.latitude! - lastLat).abs() < 0.1) {
+    if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 1)) {
       lastLon = latLongData.longitude!;
       lastLat = latLongData.latitude!;
       final model = ImageModel(id, lastLon, lastLat, lastLocation);
@@ -107,5 +110,24 @@ class LocalData {
         return model;
       }
     }
+  }
+  
+  double degreesToRadians(double degrees) {
+    return degrees * pi / 180.0;
+  }
+
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    double dLat = degreesToRadians(lat2 - lat1);
+    double dLon = degreesToRadians(lon2 - lon1);
+
+    double a = pow(sin(dLat / 2), 2) + cos(degreesToRadians(lat1)) * cos(degreesToRadians(lat2)) * pow(sin(dLon / 2), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earthRadius * c;
+  }
+
+  bool areCoordinatesClose(double lat1, double lon1, double lat2, double lon2, double thresholdDistance) {
+    double distance = calculateDistance(lat1, lon1, lat2, lon2);
+    return distance <= thresholdDistance;
   }
 }
