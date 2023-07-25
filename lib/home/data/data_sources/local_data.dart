@@ -77,7 +77,7 @@ class LocalData {
     }
 
     final latLongData = await getLocationDataFromImage(id);
-    if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 30)) {
+    if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 10)) {
       lastLon = latLongData.longitude!;
       lastLat = latLongData.latitude!;
       final model = ImageModel(id, lastLon, lastLat, lastLocation);
