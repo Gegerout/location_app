@@ -62,6 +62,7 @@ class LocalData {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     List data = [];
+    List avrData = [];
     double lastLon = 0.0;
     double lastLat = 0.0;
     Map<String, dynamic> lastLocation = {
@@ -71,9 +72,13 @@ class LocalData {
 
     if(imageLocationData.existsSync()) {
       data = json.decode(imageLocationData.readAsStringSync());
-      lastLon = data.last["longitude"];
-      lastLat = data.last["latitude"];
-      lastLocation = data.last["locationData"];
+      for(int i = 0; i < data.length; i++) {
+        final coordinates = data[i]["coordinates"];
+        avrData.add(calculateAverage(coordinates));
+      }
+      // lastLon = data.last["longitude"];
+      // lastLat = data.last["latitude"];
+      // lastLocation = data.last["locationData"];
     }
 
     final latLongData = await getLocationDataFromImage(id);
@@ -133,5 +138,18 @@ class LocalData {
   bool areCoordinatesClose(double lat1, double lon1, double lat2, double lon2, double thresholdDistance) {
     double distance = calculateDistance(lat1, lon1, lat2, lon2);
     return distance <= thresholdDistance;
+  }
+
+  double calculateAverage(List<double> numbers) {
+    if (numbers.isEmpty) {
+      throw ArgumentError("List is empty");
+    }
+
+    double sum = 0;
+    for (double number in numbers) {
+      sum += number;
+    }
+
+    return sum / numbers.length;
   }
 }
