@@ -62,7 +62,6 @@ class LocalData {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     List data = [];
-    List avrData = [];
     double lastLon = 0.0;
     double lastLat = 0.0;
     Map<String, dynamic> lastLocation = {
@@ -70,42 +69,51 @@ class LocalData {
       "city": ""
     };
 
-    if(imageLocationData.existsSync()) {
+    if (imageLocationData.existsSync()) {
       data = json.decode(imageLocationData.readAsStringSync());
-      for(int i = 0; i < data.length; i++) {
+      final latLongData = await getLocationDataFromImage(id);
+      final coordinates = [];
+      for (int i = 0; i < data.length; i++) {
         final coordinates = data[i]["coordinates"];
-        avrData.add(calculateAverage(coordinates));
-      }
-      // lastLon = data.last["longitude"];
-      // lastLat = data.last["latitude"];
-      // lastLocation = data.last["locationData"];
-    }
+        final lastLoc = data[i]["location"];
+        final avrCoordinates = calculateAverageCoordinates(coordinates);
 
-    final latLongData = await getLocationDataFromImage(id);
-    if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 10)) {
-      lastLon = latLongData.longitude!;
-      lastLat = latLongData.latitude!;
-      final model = ImageModel(id, lastLon, lastLat, lastLocation);
-      data.add(model);
-      imageLocationData.writeAsStringSync(json.encode(data));
-      return model;
-    } else {
+        if (areCoordinatesClose(
+            latLongData.latitude!, latLongData.longitude!, avrCoordinates[0],
+            avrCoordinates[1], 3)) {
+          lastLon = latLongData.longitude!;
+          lastLat = latLongData.latitude!;
+          final model = ImageModel(id, lastLon, lastLat, lastLoc);
+          coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+          data[i]["coordinates"] = coordinates;
+          imageLocationData.writeAsStringSync(json.encode(data));
+          return model;
+        } else {
+          continue;
+        }
+        //avrData.add(calculateAverageCoordinates(coordinates));
+      }
       final res = await dio.get(apiUrl, queryParameters: {
         "apikey": "a4048f27-af7e-474c-af42-92cd0a03eccb",
         "geocode": "${latLongData.longitude},${latLongData.latitude}",
         "format": "json"
       });
-      final List answer = res.data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
+      final List answer = res
+          .data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
       "GeocoderMetaData"]["text"].split(",");
       lastLon = latLongData.longitude!;
       lastLat = latLongData.latitude!;
-      if(answer.length >= 2) {
+      if (answer.length >= 2) {
         lastLocation = {
           "country": answer[0],
           "city": answer[1]
         };
         final model = ImageModel(id, lastLon, lastLat, lastLocation);
-        data.add(model);
+        coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+        data.add({
+          "coordinates": coordinates,
+          "location": lastLocation
+        });
         imageLocationData.writeAsStringSync(json.encode(data));
         return model;
       } else {
@@ -114,10 +122,96 @@ class LocalData {
           "city": ""
         };
         final model = ImageModel(id, lastLon, lastLat, lastLocation);
-        data.add(model);
+        coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+        data.add({
+          "coordinates": coordinates,
+          "location": lastLocation
+        });
         imageLocationData.writeAsStringSync(json.encode(data));
         return model;
       }
+      // lastLon = data.last["longitude"];
+      // lastLat = data.last["latitude"];
+      // lastLocation = data.last["locationData"];
+    } else {
+      final latLongData = await getLocationDataFromImage(id);
+      final coordinates = [];
+
+      final res = await dio.get(apiUrl, queryParameters: {
+        "apikey": "a4048f27-af7e-474c-af42-92cd0a03eccb",
+        "geocode": "${latLongData.longitude},${latLongData.latitude}",
+        "format": "json"
+      });
+      final List answer = res
+          .data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
+      "GeocoderMetaData"]["text"].split(",");
+      lastLon = latLongData.longitude!;
+      lastLat = latLongData.latitude!;
+      if (answer.length >= 2) {
+        lastLocation = {
+          "country": answer[0],
+          "city": answer[1]
+        };
+        final model = ImageModel(id, lastLon, lastLat, lastLocation);
+        coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+        data.add({
+          "coordinates": coordinates,
+          "location": lastLocation
+        });
+        imageLocationData.writeAsStringSync(json.encode(data));
+        return model;
+      } else {
+        lastLocation = {
+          "country": answer[0],
+          "city": ""
+        };
+        final model = ImageModel(id, lastLon, lastLat, lastLocation);
+        coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+        data.add({
+          "coordinates": coordinates,
+          "location": lastLocation
+        });
+        imageLocationData.writeAsStringSync(json.encode(data));
+        return model;
+      }
+
+    // final latLongData = await getLocationDataFromImage(id);
+    // if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 10)) {
+    //   lastLon = latLongData.longitude!;
+    //   lastLat = latLongData.latitude!;
+    //   final model = ImageModel(id, lastLon, lastLat, lastLocation);
+    //   data.add(model);
+    //   imageLocationData.writeAsStringSync(json.encode(data));
+    //   return model;
+    // } else {
+    //   final res = await dio.get(apiUrl, queryParameters: {
+    //     "apikey": "a4048f27-af7e-474c-af42-92cd0a03eccb",
+    //     "geocode": "${latLongData.longitude},${latLongData.latitude}",
+    //     "format": "json"
+    //   });
+    //   final List answer = res.data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
+    //   "GeocoderMetaData"]["text"].split(",");
+    //   lastLon = latLongData.longitude!;
+    //   lastLat = latLongData.latitude!;
+    //   if(answer.length >= 2) {
+    //     lastLocation = {
+    //       "country": answer[0],
+    //       "city": answer[1]
+    //     };
+    //     final model = ImageModel(id, lastLon, lastLat, lastLocation);
+    //     data.add(model);
+    //     imageLocationData.writeAsStringSync(json.encode(data));
+    //     return model;
+    //   } else {
+    //     lastLocation = {
+    //       "country": answer[0],
+    //       "city": ""
+    //     };
+    //     final model = ImageModel(id, lastLon, lastLat, lastLocation);
+    //     data.add(model);
+    //     imageLocationData.writeAsStringSync(json.encode(data));
+    //     return model;
+    //   }
     }
   }
   
@@ -140,16 +234,22 @@ class LocalData {
     return distance <= thresholdDistance;
   }
 
-  double calculateAverage(List<double> numbers) {
-    if (numbers.isEmpty) {
+  List<double> calculateAverageCoordinates(List coordinates) {
+    if (coordinates.isEmpty) {
       throw ArgumentError("List is empty");
     }
 
-    double sum = 0;
-    for (double number in numbers) {
-      sum += number;
+    double sumLatitude = 0;
+    double sumLongitude = 0;
+
+    for (List coordinate in coordinates) {
+      sumLatitude += coordinate[0];
+      sumLongitude += coordinate[1];
     }
 
-    return sum / numbers.length;
+    double averageLatitude = sumLatitude / coordinates.length;
+    double averageLongitude = sumLongitude / coordinates.length;
+
+    return [averageLatitude, averageLongitude];
   }
 }
