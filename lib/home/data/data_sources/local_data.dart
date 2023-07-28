@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:location_app/home/data/models/image_model.dart';
 import 'package:location_app/home/data/models/images_model.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'dart:math';
 
-class LocalData {
+class LocalData extends ChangeNotifier {
   final double earthRadius = 6371.0;
 
   Future<LatLng> getLocationDataFromImage(String id) async {
@@ -22,7 +22,7 @@ class LocalData {
     return file.latlngAsync();
   }
 
-  Future<ImagesModel> getImagesFromGallery() async {
+  Stream<ImagesModel> getImagesFromGallery() async* {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
@@ -38,10 +38,11 @@ class LocalData {
       final data = await getCityDataFromImage(images[i].id);
       imageData.add(data.$1);
       locationData = data.$2;
+      yield ImagesModel(images.sublist(0, i), thumbnailData, imageData, locationData);
     }
 
-    final models = ImagesModel(images, thumbnailData, imageData, locationData);
-    return models;
+    // final models = ImagesModel(images, thumbnailData, imageData, locationData);
+    // return models;
   }
 
   Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {
