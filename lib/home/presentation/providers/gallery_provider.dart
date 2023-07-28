@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/home/data/data_sources/local_data.dart';
 import 'package:location_app/home/data/models/image_model.dart';
+import 'package:location_app/home/data/models/images_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/repository/data_repository.dart';
@@ -18,5 +19,9 @@ final galleryProvider = FutureProvider((ref) async {
 
 final getLocationProvider = FutureProvider.family<ImageModel, String>((ref, id) async {
    final data = await LocalData().getCityDataFromImage(id);
-   return data;
+   return data.$1;
+});
+
+final getAllDataProvider = StreamProvider((ref) {
+   return Stream.fromFuture(LocalData().getImagesFromGallery());
 });

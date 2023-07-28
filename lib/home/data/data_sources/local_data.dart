@@ -31,18 +31,20 @@ class LocalData {
     final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
     final thumbnailData = await Future.wait(
         images.map((e) async => await e.thumbnailData).toList());
-    List<ImageModel> locationData = [];
+    List<ImageModel> imageData = [];
+    List<dynamic> locationData = [];
 
     for(int i = 0; i < images.length; i++) {
       final data = await getCityDataFromImage(images[i].id);
-      locationData.add(data);
+      imageData.add(data.$1);
+      locationData = data.$2;
     }
 
-    final models = ImagesModel(images, thumbnailData, locationData);
+    final models = ImagesModel(images, thumbnailData, imageData, locationData);
     return models;
   }
 
-  Future<ImageModel> getCityDataFromImage(String id) async {
+  Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {
     // var dir = await getTemporaryDirectory();
     // final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     // const apiUrl = "http://evgeniymuravyov.pythonanywhere.com/getLocation";
@@ -61,7 +63,7 @@ class LocalData {
     final Dio dio = Dio();
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
-    List data = [];
+    List<dynamic> data = [];
     double lastLon = 0.0;
     double lastLat = 0.0;
     Map<String, dynamic> lastLocation = {
@@ -87,7 +89,7 @@ class LocalData {
           coordinates.add([latLongData.latitude!, latLongData.longitude!]);
           data[i]["coordinates"] = coordinates;
           imageLocationData.writeAsStringSync(json.encode(data));
-          return model;
+          return (model, data);
         } else {
           continue;
         }
@@ -115,7 +117,7 @@ class LocalData {
           "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
-        return model;
+        return (model, data);
       } else {
         lastLocation = {
           "country": answer[0],
@@ -128,7 +130,7 @@ class LocalData {
           "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
-        return model;
+        return (model, data);
       }
       // lastLon = data.last["longitude"];
       // lastLat = data.last["latitude"];
@@ -159,7 +161,7 @@ class LocalData {
           "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
-        return model;
+        return (model, data);
       } else {
         lastLocation = {
           "country": answer[0],
@@ -172,7 +174,7 @@ class LocalData {
           "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
-        return model;
+        return (model, data);
       }
 
     // final latLongData = await getLocationDataFromImage(id);

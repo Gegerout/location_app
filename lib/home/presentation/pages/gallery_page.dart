@@ -12,7 +12,7 @@ class GalleryPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("Gallery"),
       ),
-        body: ref.watch(galleryProvider).when(
+        body: ref.watch(getAllDataProvider).when(
             data: (value) {
               return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -22,7 +22,7 @@ class GalleryPage extends ConsumerWidget {
                 ),
                 itemCount: value.images.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return imageThumbnailWidget(value.images[index], value.thumbnailData[index], value.locationData[index].locationData, ref);
+                  return imageThumbnailWidget(value.images[index], value.thumbnailData[index], value.imageData[index].locationData, ref);
                 },
               );
             },
