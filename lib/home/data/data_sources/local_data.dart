@@ -178,46 +178,46 @@ class LocalData extends ChangeNotifier {
         return (model, data);
       }
 
-    // final latLongData = await getLocationDataFromImage(id);
-    // if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 10)) {
-    //   lastLon = latLongData.longitude!;
-    //   lastLat = latLongData.latitude!;
-    //   final model = ImageModel(id, lastLon, lastLat, lastLocation);
-    //   data.add(model);
-    //   imageLocationData.writeAsStringSync(json.encode(data));
-    //   return model;
-    // } else {
-    //   final res = await dio.get(apiUrl, queryParameters: {
-    //     "apikey": "a4048f27-af7e-474c-af42-92cd0a03eccb",
-    //     "geocode": "${latLongData.longitude},${latLongData.latitude}",
-    //     "format": "json"
-    //   });
-    //   final List answer = res.data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
-    //   "GeocoderMetaData"]["text"].split(",");
-    //   lastLon = latLongData.longitude!;
-    //   lastLat = latLongData.latitude!;
-    //   if(answer.length >= 2) {
-    //     lastLocation = {
-    //       "country": answer[0],
-    //       "city": answer[1]
-    //     };
-    //     final model = ImageModel(id, lastLon, lastLat, lastLocation);
-    //     data.add(model);
-    //     imageLocationData.writeAsStringSync(json.encode(data));
-    //     return model;
-    //   } else {
-    //     lastLocation = {
-    //       "country": answer[0],
-    //       "city": ""
-    //     };
-    //     final model = ImageModel(id, lastLon, lastLat, lastLocation);
-    //     data.add(model);
-    //     imageLocationData.writeAsStringSync(json.encode(data));
-    //     return model;
-    //   }
+      // final latLongData = await getLocationDataFromImage(id);
+      // if(areCoordinatesClose(latLongData.latitude!, latLongData.longitude!, lastLat, lastLon, 10)) {
+      //   lastLon = latLongData.longitude!;
+      //   lastLat = latLongData.latitude!;
+      //   final model = ImageModel(id, lastLon, lastLat, lastLocation);
+      //   data.add(model);
+      //   imageLocationData.writeAsStringSync(json.encode(data));
+      //   return model;
+      // } else {
+      //   final res = await dio.get(apiUrl, queryParameters: {
+      //     "apikey": "a4048f27-af7e-474c-af42-92cd0a03eccb",
+      //     "geocode": "${latLongData.longitude},${latLongData.latitude}",
+      //     "format": "json"
+      //   });
+      //   final List answer = res.data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
+      //   "GeocoderMetaData"]["text"].split(",");
+      //   lastLon = latLongData.longitude!;
+      //   lastLat = latLongData.latitude!;
+      //   if(answer.length >= 2) {
+      //     lastLocation = {
+      //       "country": answer[0],
+      //       "city": answer[1]
+      //     };
+      //     final model = ImageModel(id, lastLon, lastLat, lastLocation);
+      //     data.add(model);
+      //     imageLocationData.writeAsStringSync(json.encode(data));
+      //     return model;
+      //   } else {
+      //     lastLocation = {
+      //       "country": answer[0],
+      //       "city": ""
+      //     };
+      //     final model = ImageModel(id, lastLon, lastLat, lastLocation);
+      //     data.add(model);
+      //     imageLocationData.writeAsStringSync(json.encode(data));
+      //     return model;
+      //   }
     }
   }
-  
+
   double degreesToRadians(double degrees) {
     return degrees * pi / 180.0;
   }
