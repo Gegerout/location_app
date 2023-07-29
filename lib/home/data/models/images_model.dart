@@ -7,8 +7,6 @@ import 'image_model.dart';
 class ImagesModel {
   final List<AssetEntity> images;
   final List<Uint8List?> thumbnailData;
-  final List<ImageModel> imageData;
-  final List<dynamic> locationData;
 
-  ImagesModel(this.images, this.thumbnailData, this.imageData, this.locationData);
+  ImagesModel(this.images, this.thumbnailData);
 }
