@@ -22,14 +22,3 @@ Widget imageThumbnailWidget(AssetEntity asset, Uint8List? thumbData,
     return Container();
   }
 }
-
-Widget imageCardWidget(Uint8List? thumbData) {
-  if(thumbData != null) {
-    return Image.memory(
-      thumbData,
-      fit: BoxFit.fill,
-    );
-  } else {
-    return Container();
-  }
-}

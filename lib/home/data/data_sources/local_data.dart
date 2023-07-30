@@ -11,7 +11,7 @@ import 'dart:math';
 class LocalData extends ChangeNotifier {
   final double earthRadius = 6371.0;
 
-  Future<LatLng> getCoordinatesDataFromImage(String id) async {
+  Future<LatLng> getLocationDataFromImage(String id) async {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
@@ -22,51 +22,28 @@ class LocalData extends ChangeNotifier {
     return file.latlngAsync();
   }
 
-  Future<(List<AssetEntity>, List<Uint8List?>)> getImagesFromGallery() async {
-    var dir = await getTemporaryDirectory();
-    final File imagesData = File("${dir.path}/imagesData.json");
+  Stream<ImagesModel> getImagesFromGallery() async* {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
     );
 
     final images = await albums[0].getAssetListRange(start: 0, end: 1000000);
+    final thumbnailData = await Future.wait(
+        images.map((e) async => await e.thumbnailData).toList());
+    List<ImageModel> imageData = [];
+    List<dynamic> locationData = [];
 
-    if(imagesData.existsSync()) {
-      final Map<String, dynamic> data = json.decode(imagesData.readAsStringSync());
-      final int imagesCount = int.parse(data["imagesCount"]);
-      if(imagesCount <= images.length) {
-        final List<AssetEntity> images = data["images"];
-        final List<Uint8List?> thumbnailData = data["thumbnailData"];
-        return (images, thumbnailData);
-      } else {
-        final lastImages = images.sublist(imagesCount);
-        List<Uint8List?> thumbnailData = data["thumbnailData"];
-        await Future.wait(
-            lastImages.map((e) async {
-              thumbnailData.add(await e.thumbnailData);
-            }));
-        return (images, thumbnailData);
-      }
-    } else {
-      final thumbnailData = await Future.wait(
-          images.map((e) async => await e.thumbnailData).toList());
-
-      return (images, thumbnailData);
+    for(int i = 0; i < images.length; i++) {
+      final data = await getCityDataFromImage(images[i].id);
+      imageData.add(data.$1);
+      locationData = data.$2;
+      yield ImagesModel(images.sublist(0, i), thumbnailData, imageData, locationData);
     }
-  }
 
-  Future<Map<String, dynamic>?> getLocationDataFromImages() async {
-    var dir = await getTemporaryDirectory();
-    final File imagesLocationData = File("${dir.path}/imagesLocationData.json");
-    if(imagesLocationData.existsSync()) {
-      final Map<String, dynamic> data = json.decode(imagesLocationData.readAsStringSync());
-      return data;
-    } else {
-      return null;
-    }
+    // final models = ImagesModel(images, thumbnailData, imageData, locationData);
+    // return models;
   }
-
 
   Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {
     // var dir = await getTemporaryDirectory();
@@ -97,7 +74,7 @@ class LocalData extends ChangeNotifier {
 
     if (imageLocationData.existsSync()) {
       data = json.decode(imageLocationData.readAsStringSync());
-      final latLongData = await getCoordinatesDataFromImage(id);
+      final latLongData = await getLocationDataFromImage(id);
       final coordinates = [];
       for (int i = 0; i < data.length; i++) {
         final coordinates = data[i]["coordinates"];
@@ -160,7 +137,7 @@ class LocalData extends ChangeNotifier {
       // lastLat = data.last["latitude"];
       // lastLocation = data.last["locationData"];
     } else {
-      final latLongData = await getCoordinatesDataFromImage(id);
+      final latLongData = await getLocationDataFromImage(id);
       final coordinates = [];
 
       final res = await dio.get(apiUrl, queryParameters: {
