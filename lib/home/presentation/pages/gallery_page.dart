@@ -21,20 +21,24 @@ class GalleryPage extends ConsumerWidget {
           stream: imagesProvider.getImagesFromGallery(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 4.0,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                    childAspectRatio: (.75 / 1)
+                  ),
+                  itemCount: snapshot.data!.images.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return imageThumbnailWidget(
+                        snapshot.data!.images[index],
+                        snapshot.data!.thumbnailData[index],
+                        snapshot.data!.imageData[index].locationData,
+                        ref);
+                  },
                 ),
-                itemCount: snapshot.data!.images.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return imageThumbnailWidget(
-                      snapshot.data!.images[index],
-                      snapshot.data!.thumbnailData[index],
-                      snapshot.data!.imageData[index].locationData,
-                      ref);
-                },
               );
             } else {
               return const Center(
