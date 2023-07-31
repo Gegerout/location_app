@@ -34,20 +34,13 @@ class LocalData extends ChangeNotifier {
     List<ImageModel> imageData = [];
     List<dynamic> locationData = [];
 
-    if(images.length == 1) {
-      final data = await getCityDataFromImage(images[0].id);
+    for(int i = 0; i < images.length; i++) {
+      final data = await getCityDataFromImage(images[i].id);
       imageData.add(data.$1);
       locationData = data.$2;
-      yield ImagesModel(images, thumbnailData, imageData, locationData);
-    } else {
-      for(int i = 0; i < images.length; i++) {
-        final data = await getCityDataFromImage(images[i].id);
-        imageData.add(data.$1);
-        locationData = data.$2;
-        yield ImagesModel(images.sublist(0, i), thumbnailData, imageData, locationData);
-      }
-      yield ImagesModel(images, thumbnailData, imageData, locationData);
+      yield ImagesModel(images.sublist(0, i), thumbnailData, imageData, locationData);
     }
+    yield ImagesModel(images, thumbnailData, imageData, locationData);
 
     // final models = ImagesModel(images, thumbnailData, imageData, locationData);
     // return models;
