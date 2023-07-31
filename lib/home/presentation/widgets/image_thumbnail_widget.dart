@@ -7,7 +7,6 @@ import 'package:photo_manager/photo_manager.dart';
 Widget imageThumbnailWidget(AssetEntity asset, Uint8List? thumbData,
     Map<String, dynamic> locationData, WidgetRef ref) {
   if (thumbData != null) {
-    print(thumbData);
     return SingleChildScrollView(
       child: Column(
         children: [
