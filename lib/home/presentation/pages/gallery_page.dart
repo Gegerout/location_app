@@ -6,11 +6,36 @@ import 'package:provider/provider.dart';
 
 import '../../data/data_sources/local_data.dart';
 
-class GalleryPage extends ConsumerWidget {
+class GalleryPage extends ConsumerStatefulWidget {
   const GalleryPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GalleryPage> createState() => _GalleryPageState();
+}
+
+class _GalleryPageState extends ConsumerState<GalleryPage> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed) {
+      setState(() {
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final imagesProvider = context.read<LocalData>();
 
     return Scaffold(
@@ -22,13 +47,13 @@ class GalleryPage extends ConsumerWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                    childAspectRatio: (.75 / 1)
+                    crossAxisSpacing: 18.0,
+                    mainAxisSpacing: 18.0,
+                    childAspectRatio: (.7 / 1)
                   ),
                   itemCount: snapshot.data!.images.length,
                   itemBuilder: (BuildContext context, int index) {
