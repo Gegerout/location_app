@@ -22,7 +22,7 @@ class LocalData extends ChangeNotifier {
     return file.latlngAsync();
   }
 
-  Stream<ImagesModel> getImagesFromGallery() async* {
+  Future<ImagesModel> getImagesFromGallery() async {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
@@ -38,11 +38,11 @@ class LocalData extends ChangeNotifier {
       final data = await getCityDataFromImage(images[i].id);
       imageData.add(data.$1);
       locationData = data.$2;
-      yield ImagesModel(images.sublist(0, i+1), thumbnailData, imageData, locationData);
+      //yield ImagesModel(images.sublist(0, i+1), thumbnailData, imageData, locationData);
     }
 
-    // final models = ImagesModel(images, thumbnailData, imageData, locationData);
-    // return models;
+    final models = ImagesModel(images, thumbnailData, imageData, locationData);
+    return models;
   }
 
   Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {

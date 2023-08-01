@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/home/data/data_sources/local_data.dart';
+import 'package:location_app/home/presentation/pages/country_list_page.dart';
 import 'package:location_app/home/presentation/pages/gallery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: GalleryPage()
+        body: CountryListPage()
       ),
     );
   }

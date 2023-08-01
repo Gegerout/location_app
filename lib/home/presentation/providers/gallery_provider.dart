@@ -23,12 +23,18 @@ final getLocationProvider = FutureProvider.family<ImageModel, String>((ref, id) 
    return data.$1;
 });
 
-// final getAllDataProvider = StreamProvider((ref) {
-//    return Stream.fromFuture(LocalData().getImagesFromGallery());
-// });
+final getAllDataProvider = FutureProvider((ref) {
+   return LocalData().getImagesFromGallery();
+});
 
-final someProvider = ChangeNotifierProvider((ref) => someNotifier());
-
-class someNotifier extends ChangeNotifier {
-
-}
+final getCitiesProvider = FutureProvider((ref) async {
+   List cities = [];
+   final data = await LocalData().getImagesFromGallery();
+   for(int i = 0; i < data.locationData.length; i++) {
+      final city = data.locationData[i]["location"];
+      if(!cities.contains(city)) {
+         cities.add(city);
+      }
+   }
+   return (data, cities);
+});
