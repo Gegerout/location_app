@@ -9,6 +9,7 @@ class ImagesModel {
   final List<Uint8List?> thumbnailData;
   final List<ImageModel> imageData;
   final List<dynamic> locationData;
+  final List<dynamic> cities;
 
-  ImagesModel(this.images, this.thumbnailData, this.imageData, this.locationData);
+  ImagesModel(this.images, this.thumbnailData, this.imageData, this.locationData, this.cities);
 }

@@ -28,15 +28,6 @@ final getAllDataProvider = FutureProvider((ref) {
   return LocalData().getImagesFromGallery();
 });
 
-final getCitiesProvider = FutureProvider((ref) async {
-  List cities = [];
-  final data = await LocalData().getImagesFromGallery();
-  for (int i = 0; i < data.locationData.length; i++) {
-    final city =
-        "${data.locationData[i]["location"]["city"]}, ${data.locationData[i]["location"]["country"]}";
-    if (!cities.contains(city)) {
-      cities.add(city);
-    }
-  }
-  return (data, cities);
+final getCitiesProvider = StreamProvider<ImagesModel>((ref) {
+  return LocalData().getImagesFromGallery();
 });
