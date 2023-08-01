@@ -3,6 +3,7 @@ import 'package:location_app/home/data/data_sources/local_data.dart';
 import 'package:location_app/home/presentation/pages/country_list_page.dart';
 import 'package:location_app/home/presentation/pages/gallery_page.dart';
 import 'package:flutter/material.dart';
+import 'package:location_app/home/presentation/pages/home_page.dart';
 import 'package:provider/provider.dart' as provider;
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: CountryListPage()
+        body: HomePage(),
       ),
     );
   }
