@@ -35,7 +35,7 @@ class LocalData extends ChangeNotifier {
     List<dynamic> locationData = [];
 
     for(int i = 0; i < images.length; i++) {
-      final data = await getCityDataFromImage(images[i].id, images.length, thumbnailData[i]);
+      final data = await getCityDataFromImage(images[i].id);
       imageData.add(data.$1);
       locationData = data.$2;
       yield ImagesModel(images.sublist(0, i+1), thumbnailData, imageData, locationData);
@@ -45,7 +45,7 @@ class LocalData extends ChangeNotifier {
     // return models;
   }
 
-  Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id, int imagesCount, Uint8List? thumbnailData) async {
+  Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {
     // var dir = await getTemporaryDirectory();
     // final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     // const apiUrl = "http://evgeniymuravyov.pythonanywhere.com/getLocation";
@@ -65,7 +65,6 @@ class LocalData extends ChangeNotifier {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     List<dynamic> data = [];
-    List cities = [];
     double lastLon = 0.0;
     double lastLat = 0.0;
     Map<String, dynamic> lastLocation = {
@@ -75,24 +74,11 @@ class LocalData extends ChangeNotifier {
 
     if (imageLocationData.existsSync()) {
       data = json.decode(imageLocationData.readAsStringSync());
-      int count = 0;
-      for(int i = 0; i < data.length; i++) {
-        final List coordinates = data[i]["coordinates"];
-        cities.add(data[i]["location"]["city"]);
-        count += coordinates.length;
-      }
-      if(count == imagesCount) {
-        final lastLoc = data.last["location"];
-        final model = ImageModel(id, lastLon, lastLat, lastLoc, thumbnailData);
-        return (model, data);
-      }
       final latLongData = await getLocationDataFromImage(id);
       final coordinates = [];
-      final List<Uint8List?> thumbnails = [];
       for (int i = 0; i < data.length; i++) {
         final coordinates = data[i]["coordinates"];
         final lastLoc = data[i]["location"];
-        final thumbnails = data[i]["thumbnailData"];
         final avrCoordinates = calculateAverageCoordinates(coordinates);
 
         if (areCoordinatesClose(
@@ -100,11 +86,9 @@ class LocalData extends ChangeNotifier {
             avrCoordinates[1], 3)) {
           lastLon = latLongData.longitude!;
           lastLat = latLongData.latitude!;
-          final model = ImageModel(id, lastLon, lastLat, lastLoc, thumbnailData);
+          final model = ImageModel(id, lastLon, lastLat, lastLoc);
           coordinates.add([latLongData.latitude!, latLongData.longitude!]);
           data[i]["coordinates"] = coordinates;
-          thumbnails.add(thumbnailData);
-          data[i]["thumbnailData"] = thumbnails;
           imageLocationData.writeAsStringSync(json.encode(data));
           return (model, data);
         } else {
@@ -127,41 +111,24 @@ class LocalData extends ChangeNotifier {
           "country": answer[0],
           "city": answer[1]
         };
-        final model = ImageModel(id, lastLon, lastLat, lastLocation, thumbnailData);
-        if(cities.contains(answer[1])) {
-          final int index = data.indexWhere((element) => element["location"]["city"] == answer[1]);
-          final coordinates = data[index]["coordinates"];
-          final thumbnails = data[index]["thumbnailData"];
-          coordinates.add([latLongData.latitude!, latLongData.longitude!]);
-          thumbnails.add(thumbnailData);
-          data[index]["coordinates"] = coordinates;
-          data[index]["thumbnailData"] = thumbnails;
-          imageLocationData.writeAsStringSync(json.encode(data));
-          return (model, data);
-        }
-       else {
-          coordinates.add([latLongData.latitude!, latLongData.longitude!]);
-          thumbnails.add(thumbnailData);
-          data.add({
-            "coordinates": coordinates,
-            "location": lastLocation,
-            "thumbnailData": thumbnails
-          });
-          imageLocationData.writeAsStringSync(json.encode(data));
-          return (model, data);
-        }
+        final model = ImageModel(id, lastLon, lastLat, lastLocation);
+        coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+        data.add({
+          "coordinates": coordinates,
+          "location": lastLocation
+        });
+        imageLocationData.writeAsStringSync(json.encode(data));
+        return (model, data);
       } else {
         lastLocation = {
           "country": answer[0],
           "city": ""
         };
-        final model = ImageModel(id, lastLon, lastLat, lastLocation, thumbnailData);
+        final model = ImageModel(id, lastLon, lastLat, lastLocation);
         coordinates.add([latLongData.latitude!, latLongData.longitude!]);
-        thumbnails.add(thumbnailData);
         data.add({
           "coordinates": coordinates,
-          "location": lastLocation,
-          "thumbnailData": thumbnails
+          "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
         return (model, data);
@@ -172,7 +139,6 @@ class LocalData extends ChangeNotifier {
     } else {
       final latLongData = await getLocationDataFromImage(id);
       final coordinates = [];
-      final List<Uint8List?> thumbnails = [];
 
       final res = await dio.get(apiUrl, queryParameters: {
         "apikey": "a4048f27-af7e-474c-af42-92cd0a03eccb",
@@ -189,13 +155,11 @@ class LocalData extends ChangeNotifier {
           "country": answer[0],
           "city": answer[1]
         };
-        final model = ImageModel(id, lastLon, lastLat, lastLocation, thumbnailData);
+        final model = ImageModel(id, lastLon, lastLat, lastLocation);
         coordinates.add([latLongData.latitude!, latLongData.longitude!]);
-        thumbnails.add(thumbnailData);
         data.add({
           "coordinates": coordinates,
-          "location": lastLocation,
-          "thumbnailData": thumbnails
+          "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
         return (model, data);
@@ -204,13 +168,11 @@ class LocalData extends ChangeNotifier {
           "country": answer[0],
           "city": ""
         };
-        final model = ImageModel(id, lastLon, lastLat, lastLocation, thumbnailData);
+        final model = ImageModel(id, lastLon, lastLat, lastLocation);
         coordinates.add([latLongData.latitude!, latLongData.longitude!]);
-        thumbnails.add(thumbnailData);
         data.add({
           "coordinates": coordinates,
-          "location": lastLocation,
-          "thumbnailData": thumbnails
+          "location": lastLocation
         });
         imageLocationData.writeAsStringSync(json.encode(data));
         return (model, data);
