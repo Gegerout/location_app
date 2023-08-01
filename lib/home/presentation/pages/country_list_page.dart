@@ -15,9 +15,9 @@ class CountryListPage extends ConsumerWidget {
         body: ref.watch(getCitiesProvider).when(
             data: (value) {
               return ListView.builder(
-                itemCount: value.$1.locationData.length,
+                itemCount: value.$2.length,
                   itemBuilder: (context, index) {
-                return Text(value.$2[index]["city"]);
+                return Text(value.$2[index]);
               });
             },
             error: (error, stacktrace) {

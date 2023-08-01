@@ -18,23 +18,25 @@ import '../../data/repository/data_repository.dart';
 //    return data.images;
 // });
 
-final getLocationProvider = FutureProvider.family<ImageModel, String>((ref, id) async {
-   final data = await LocalData().getCityDataFromImage(id);
-   return data.$1;
+final getLocationProvider =
+    FutureProvider.family<ImageModel, String>((ref, id) async {
+  final data = await LocalData().getCityDataFromImage(id);
+  return data.$1;
 });
 
 final getAllDataProvider = FutureProvider((ref) {
-   return LocalData().getImagesFromGallery();
+  return LocalData().getImagesFromGallery();
 });
 
 final getCitiesProvider = FutureProvider((ref) async {
-   List cities = [];
-   final data = await LocalData().getImagesFromGallery();
-   for(int i = 0; i < data.locationData.length; i++) {
-      final city = data.locationData[i]["location"];
-      if(!cities.contains(city)) {
-         cities.add(city);
-      }
-   }
-   return (data, cities);
+  List cities = [];
+  final data = await LocalData().getImagesFromGallery();
+  for (int i = 0; i < data.locationData.length; i++) {
+    final city =
+        "${data.locationData[i]["location"]["city"]}, ${data.locationData[i]["location"]["country"]}";
+    if (!cities.contains(city)) {
+      cities.add(city);
+    }
+  }
+  return (data, cities);
 });
