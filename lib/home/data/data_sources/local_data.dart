@@ -128,16 +128,20 @@ class LocalData extends ChangeNotifier {
           "city": answer[1]
         };
         final model = ImageModel(id, lastLon, lastLat, lastLocation, thumbnailData);
-        coordinates.add([latLongData.latitude!, latLongData.longitude!]);
-        thumbnails.add(thumbnailData);
         if(cities.contains(answer[1])) {
           final int index = data.indexWhere((element) => element["location"]["city"] == answer[1]);
+          final coordinates = data[index]["coordinates"];
+          final thumbnails = data[index]["thumbnailData"];
+          coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+          thumbnails.add(thumbnailData);
           data[index]["coordinates"] = coordinates;
           data[index]["thumbnailData"] = thumbnails;
           imageLocationData.writeAsStringSync(json.encode(data));
           return (model, data);
         }
        else {
+          coordinates.add([latLongData.latitude!, latLongData.longitude!]);
+          thumbnails.add(thumbnailData);
           data.add({
             "coordinates": coordinates,
             "location": lastLocation,
