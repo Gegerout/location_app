@@ -1,9 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/home/data/data_sources/local_data.dart';
+import 'package:location_app/home/presentation/pages/country_list_page.dart';
 import 'package:location_app/home/presentation/pages/gallery_page.dart';
 import 'package:flutter/material.dart';
+import 'package:location_app/home/presentation/pages/home_page.dart';
+import 'package:provider/provider.dart' as provider;
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(provider.MultiProvider(providers: [
+    provider.ChangeNotifierProvider(create: (context) => LocalData()),
+  ], child: const ProviderScope(child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: GalleryPage()
+        body: HomePage(),
       ),
     );
   }
