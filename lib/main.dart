@@ -4,6 +4,8 @@ import 'package:location_app/home/presentation/pages/gallery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 
+import 'home/presentation/pages/country_list_page.dart';
+
 void main() {
   runApp(provider.MultiProvider(providers: [
     provider.ChangeNotifierProvider(create: (context) => LocalData()),
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: GalleryPage()
+        body: CountryListPage()
       ),
     );
   }

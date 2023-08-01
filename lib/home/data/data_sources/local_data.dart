@@ -35,7 +35,7 @@ class LocalData extends ChangeNotifier {
     List<dynamic> locationData = [];
 
     for(int i = 0; i < images.length; i++) {
-      final data = await getCityDataFromImage(images[i].id);
+      final data = await getCityDataFromImage(images[i].id, images.length);
       imageData.add(data.$1);
       locationData = data.$2;
       yield ImagesModel(images.sublist(0, i+1), thumbnailData, imageData, locationData);
@@ -45,7 +45,7 @@ class LocalData extends ChangeNotifier {
     // return models;
   }
 
-  Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {
+  Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id, int imagesCount) async {
     // var dir = await getTemporaryDirectory();
     // final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     // const apiUrl = "http://evgeniymuravyov.pythonanywhere.com/getLocation";
@@ -74,6 +74,16 @@ class LocalData extends ChangeNotifier {
 
     if (imageLocationData.existsSync()) {
       data = json.decode(imageLocationData.readAsStringSync());
+      int count = 0;
+      for(int i = 0; i < data.length; i++) {
+        final List coordinates = data[i]["coordinates"];
+        count += coordinates.length;
+      }
+      if(count == imagesCount) {
+        final lastLoc = data.last["location"];
+        final model = ImageModel(id, lastLon, lastLat, lastLoc);
+        return (model, data);
+      }
       final latLongData = await getLocationDataFromImage(id);
       final coordinates = [];
       for (int i = 0; i < data.length; i++) {
