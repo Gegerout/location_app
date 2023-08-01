@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/home/presentation/providers/gallery_provider.dart';
@@ -46,6 +48,7 @@ class _CountryListPageState extends ConsumerState<CountryListPage>
           stream: imagesProvider.getImagesFromGallery(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print(snapshot.data!.locationData[0]["thumbnailData"].length);
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data!.locationData.length,
@@ -62,7 +65,7 @@ class _CountryListPageState extends ConsumerState<CountryListPage>
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Image.memory(
-                                  snapshot.data!.thumbnailData[subIndex]!,
+                                  Uint8List.fromList(List<int>.from(snapshot.data!.locationData[index]["thumbnailData"][subIndex])),
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,

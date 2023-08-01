@@ -18,10 +18,10 @@ import '../../data/repository/data_repository.dart';
 //    return data.images;
 // });
 
-final getLocationProvider = FutureProvider.family<ImageModel, String>((ref, id) async {
-   final data = await LocalData().getCityDataFromImage(id, 100);
-   return data.$1;
-});
+// final getLocationProvider = FutureProvider.family<ImageModel, String>((ref, id) async {
+//    final data = await LocalData().getCityDataFromImage(id, 100);
+//    return data.$1;
+// });
 
 // final getAllDataProvider = StreamProvider((ref) {
 //    return Stream.fromFuture(LocalData().getImagesFromGallery());
