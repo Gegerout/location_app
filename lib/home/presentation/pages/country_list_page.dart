@@ -48,7 +48,6 @@ class _CountryListPageState extends ConsumerState<CountryListPage>
           stream: imagesProvider.getImagesFromGallery(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(snapshot.data!.locationData[0]["thumbnailData"].length);
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data!.locationData.length,

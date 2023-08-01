@@ -65,6 +65,7 @@ class LocalData extends ChangeNotifier {
     var dir = await getTemporaryDirectory();
     final File imageLocationData = File("${dir.path}/imagesLocationData.json");
     List<dynamic> data = [];
+    List cities = [];
     double lastLon = 0.0;
     double lastLat = 0.0;
     Map<String, dynamic> lastLocation = {
@@ -77,6 +78,7 @@ class LocalData extends ChangeNotifier {
       int count = 0;
       for(int i = 0; i < data.length; i++) {
         final List coordinates = data[i]["coordinates"];
+        cities.add(data[i]["location"]["city"]);
         count += coordinates.length;
       }
       if(count == imagesCount) {
@@ -128,13 +130,22 @@ class LocalData extends ChangeNotifier {
         final model = ImageModel(id, lastLon, lastLat, lastLocation, thumbnailData);
         coordinates.add([latLongData.latitude!, latLongData.longitude!]);
         thumbnails.add(thumbnailData);
-        data.add({
-          "coordinates": coordinates,
-          "location": lastLocation,
-          "thumbnailData": thumbnails
-        });
-        imageLocationData.writeAsStringSync(json.encode(data));
-        return (model, data);
+        if(cities.contains(answer[1])) {
+          final int index = data.indexWhere((element) => element["location"]["city"] == answer[1]);
+          data[index]["coordinates"] = coordinates;
+          data[index]["thumbnailData"] = thumbnails;
+          imageLocationData.writeAsStringSync(json.encode(data));
+          return (model, data);
+        }
+       else {
+          data.add({
+            "coordinates": coordinates,
+            "location": lastLocation,
+            "thumbnailData": thumbnails
+          });
+          imageLocationData.writeAsStringSync(json.encode(data));
+          return (model, data);
+        }
       } else {
         lastLocation = {
           "country": answer[0],
