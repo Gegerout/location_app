@@ -42,7 +42,7 @@ class _CountryListPageState extends ConsumerState<CountryListPage>
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Gallery"),
+          title: const Text("Country List"),
         ),
         body: StreamBuilder(
           stream: imagesProvider.getImagesFromGallery(),
