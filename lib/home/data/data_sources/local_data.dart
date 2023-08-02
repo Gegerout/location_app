@@ -22,7 +22,7 @@ class LocalData extends ChangeNotifier {
     return file.latlngAsync();
   }
 
-  Future<ImagesModel> getImagesFromGallery() async {
+  Stream<ImagesModel> getImagesFromGallery() async* {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
@@ -33,16 +33,24 @@ class LocalData extends ChangeNotifier {
         images.map((e) async => await e.thumbnailData).toList());
     List<ImageModel> imageData = [];
     List<dynamic> locationData = [];
+    List<dynamic> cities = [];
 
     for(int i = 0; i < images.length; i++) {
       final data = await getCityDataFromImage(images[i].id);
       imageData.add(data.$1);
       locationData = data.$2;
-      //yield ImagesModel(images.sublist(0, i+1), thumbnailData, imageData, locationData);
+      for(int j = 0; j < locationData.length; j++) {
+        final city =
+            "${locationData[j]["location"]["city"]}, ${locationData[j]["location"]["country"]}";
+        if (!cities.contains(city)) {
+          cities.add(city);
+        }
+      }
+      yield ImagesModel(images.sublist(0, i+1), thumbnailData, imageData, locationData, cities);
     }
 
-    final models = ImagesModel(images, thumbnailData, imageData, locationData);
-    return models;
+    // final models = ImagesModel(images, thumbnailData, imageData, locationData);
+    // return models;
   }
 
   Future<(ImageModel, List<dynamic>)> getCityDataFromImage(String id) async {
