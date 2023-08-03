@@ -9,7 +9,7 @@ class InstagramImagesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("instagram Images Page"),
+        title: const Text("Instagram Images Page"),
       ),
       body: ref.watch(getLocationsProvider).when(
               data: (value) {
