@@ -23,7 +23,7 @@ class _LocationScreenState extends State<LocationScreen> {
     final String accessToken = ''; // Replace with your actual access token
 
     final response = await http.get(
-      Uri.parse('https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp&access_token=$accessToken'),
+      Uri.parse('https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,timestamp&access_token=$accessToken'),
     );
 
     if (response.statusCode == 200) {
