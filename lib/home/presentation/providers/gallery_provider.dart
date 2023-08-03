@@ -31,3 +31,8 @@ final getAllDataProvider = FutureProvider((ref) {
 final getCitiesProvider = StreamProvider<ImagesModel>((ref) {
   return LocalData().getImagesFromGallery();
 });
+
+final getLocationsProvider = FutureProvider((ref) async {
+   final data = await DataRepository().getLocations();
+   return data;
+});

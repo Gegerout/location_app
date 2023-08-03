@@ -263,4 +263,11 @@ class LocalData extends ChangeNotifier {
 
     return [averageLatitude, averageLongitude];
   }
+
+  Future<List<String>> getLocations() async {
+    const String apiUrl = "http://evgeniymuravyov.pythonanywhere.com/getLocation";
+    final Dio dio = Dio();
+    final response = await dio.get(apiUrl);
+    return List<String>.from(response.data["data"]);
+  }
 }

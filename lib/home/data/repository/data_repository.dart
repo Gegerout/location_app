@@ -4,6 +4,11 @@ import 'package:location_app/home/domain/usecases/images_usecase.dart';
 import '../../domain/repository/repository_impl.dart';
 
 class DataRepository extends Repository {
+  @override
+  Future<List<String>> getLocations() async {
+    final data = await LocalData().getLocations();
+    return data;
+  }
   // @override
   // Future<ImagesUseCase> getImagesFromGallery() async {
   //   final images = await LocalData().getImagesFromGallery();
