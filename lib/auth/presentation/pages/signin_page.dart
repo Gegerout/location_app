@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/auth/presentation/pages/loading_page.dart';
 import 'package:location_app/auth/presentation/providers/signin_provider.dart';
 
 class SigninPage extends ConsumerWidget {
@@ -12,6 +13,8 @@ class SigninPage extends ConsumerWidget {
         child: ElevatedButton(
           onPressed: () {
             ref.read(signinProvider).signinWithInstagram();
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoadingPage()));
           },
           child: Text("Signin",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
