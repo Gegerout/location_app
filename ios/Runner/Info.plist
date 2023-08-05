@@ -59,10 +59,10 @@
           <key>CFBundleTypeRole</key>
           <string>Editor</string>
           <key>CFBundleURLName</key>
-          <string>[ANY_URL_NAME]</string>
+          <string>return-callback</string>
           <key>CFBundleURLSchemes</key>
           <array>
-            <string>[YOUR_SCHEME]</string>
+            <string>com.locationapp</string>
           </array>
         </dict>
       </array>
