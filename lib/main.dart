@@ -1,16 +1,15 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_app/home/data/data_sources/local_data.dart';
-import 'package:location_app/home/presentation/pages/country_list_page.dart';
-import 'package:location_app/home/presentation/pages/gallery_page.dart';
 import 'package:flutter/material.dart';
-import 'package:location_app/home/presentation/pages/home_page.dart';
-import 'package:location_app/home/presentation/pages/instagram_images_page.dart';
-import 'package:provider/provider.dart' as provider;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/auth/presentation/pages/signin_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
-  runApp(provider.MultiProvider(providers: [
-    provider.ChangeNotifierProvider(create: (context) => LocalData()),
-  ], child: const ProviderScope(child: MyApp())));
+Future<void> main() async {
+  await Supabase.initialize(
+    url: 'https://rrtxhumsrdoxrnqaohnc.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJydHhodW1zcmRveHJucWFvaG5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTEyMjg5NjAsImV4cCI6MjAwNjgwNDk2MH0.lQ3QP58TP1avQ8NgHFJnrXeA_i6NpK440Mw_hE8RZbQ',
+  );
+
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: InstagramImagesPage(),
+        body: SigninPage(),
       ),
     );
   }
