@@ -53,26 +53,18 @@
     <string>Music!</string>
     <key>kTCCServiceMediaLibrary</key>
     <string>media</string>
-    <?xml ...>
-    <!-- ... other tags -->
-    <plist>
-    <dict>
-      <!-- ... other tags -->
-      <key>CFBundleURLTypes</key>
+    <key>CFBundleURLTypes</key>
       <array>
         <dict>
           <key>CFBundleTypeRole</key>
           <string>Editor</string>
           <key>CFBundleURLName</key>
-          <string>return-callback</string>
+          <string>[ANY_URL_NAME]</string>
           <key>CFBundleURLSchemes</key>
           <array>
-            <string>com.locationapp</string>
+            <string>[YOUR_SCHEME]</string>
           </array>
         </dict>
       </array>
-      <!-- ... other tags -->
-    </dict>
-    </plist>
 </dict>
 </plist>
