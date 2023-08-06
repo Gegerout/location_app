@@ -30,6 +30,7 @@ class CreateAccountPage extends ConsumerWidget {
                   color: Colors.grey[300]),
               child: TextFormField(
                 controller: emailCont,
+                keyboardType: TextInputType.emailAddress,
                 style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -57,6 +58,8 @@ class CreateAccountPage extends ConsumerWidget {
               child: TextFormField(
                 controller: passwordCont,
                 obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
                 style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
