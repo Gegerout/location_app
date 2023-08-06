@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location_app/home/presentation/pages/home_page.dart';
 import 'package:receive_intent/receive_intent.dart';
+import 'package:uni_links/uni_links.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -14,10 +15,10 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream: ReceiveIntent.receivedIntentStream,
+        stream: linkStream,
         builder: (context, snapshot) {
           if (snapshot.data != null) {
-            final url = Uri.parse(snapshot.data!.data!);
+            final url = Uri.parse(snapshot.data!);
             var accessToken = url.queryParameters["access_token"];
             if (accessToken != null) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
