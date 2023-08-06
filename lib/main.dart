@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: OtpVerificationPage(email: "selimchik06@gmail.com"),
+        body: CreateAccountPage(),
       ),
     );
   }

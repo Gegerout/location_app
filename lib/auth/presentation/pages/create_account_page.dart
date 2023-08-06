@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/auth/presentation/pages/add_instagram_page.dart';
+import 'package:location_app/auth/presentation/pages/otp_verification_page.dart';
 import 'package:location_app/auth/presentation/providers/signup_provider.dart';
+import 'package:location_app/home/presentation/pages/home_page.dart';
 
 class CreateAccountPage extends ConsumerWidget {
   CreateAccountPage({Key? key}) : super(key: key);
@@ -77,7 +80,14 @@ class CreateAccountPage extends ConsumerWidget {
               height: 50,
               child: ElevatedButton(
                   onPressed: () {
-                    ref.read(signupProvider.notifier).createUserAccount(emailCont.text, passwordCont.text);
+                    ref
+                        .read(signupProvider.notifier)
+                        .createUserAccount(emailCont.text, passwordCont.text).then((value) {
+                          if(value) {
+                            //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddInstagramPage()));
+                          }
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,

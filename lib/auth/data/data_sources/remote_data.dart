@@ -12,12 +12,17 @@ class RemoteData {
   }
 
   Future<bool> createUserAccount(String email, String password) async {
-    try {
-      await supabase.auth.signUp(email: email, password: password);
+    // try {
+    //   await supabase.auth.signUp(email: email, password: password);
+    //   return true;
+    // } on AuthException {
+    //   return false;
+    // }
+    final res = await supabase.auth.signUp(email: email, password: password);
+    if(res.user != null) {
       return true;
-    } on AuthException {
-      return false;
     }
+    return false;
   }
 
   Future<bool> checkOtpCode(String email, String code) async {

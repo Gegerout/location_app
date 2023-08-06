@@ -10,14 +10,24 @@ class AddInstagramPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            ref.read(signupProvider.notifier).addInstagramAccount();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoadingPage()));
-          },
-          child: Text("Signin",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+        child: SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton(
+              onPressed: () {
+                ref.read(signupProvider.notifier).addInstagramAccount();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoadingPage()));
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              child: const Text("Add Instagram Account",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white))),
         ),
       ),
     );
