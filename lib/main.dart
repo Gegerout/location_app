@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_app/auth/presentation/pages/signin_page.dart';
+import 'package:location_app/auth/presentation/pages/add_instagram_page.dart';
+import 'package:location_app/auth/presentation/pages/create_account_page.dart';
+import 'package:location_app/auth/presentation/pages/otp_verification_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: SigninPage(),
+        body: OtpVerificationPage(email: "selimchik06@gmail.com"),
       ),
     );
   }

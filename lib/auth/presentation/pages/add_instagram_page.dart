@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/auth/presentation/pages/loading_page.dart';
-import 'package:location_app/auth/presentation/providers/signin_provider.dart';
+import 'package:location_app/auth/presentation/providers/signup_provider.dart';
 
-class SigninPage extends ConsumerWidget {
-  const SigninPage({Key? key}) : super(key: key);
+class AddInstagramPage extends ConsumerWidget {
+  const AddInstagramPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -12,7 +12,7 @@ class SigninPage extends ConsumerWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            ref.read(signinProvider).signinWithInstagram();
+            ref.read(signupProvider.notifier).addInstagramAccount();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const LoadingPage()));
           },

@@ -1,5 +1,5 @@
-import 'package:location_app/auth/domain/usecases/user_usecase.dart';
-
 abstract class Repository {
-  Future<void> signinWithInstagram();
+  Future<void> addInstagramAccount();
+  Future<bool> createUserAccount(String email, String password);
+  Future<bool> checkOtpCode(String email, String code);
 }
