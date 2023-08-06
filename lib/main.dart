@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_app/auth/presentation/pages/add_instagram_page.dart';
-import 'package:location_app/auth/presentation/pages/create_account_page.dart';
-import 'package:location_app/auth/presentation/pages/otp_verification_page.dart';
+import 'package:location_app/auth/presentation/pages/welcome_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -23,11 +21,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        body: CreateAccountPage(),
+      home: const Scaffold(
+        body: WelcomePage(),
       ),
     );
   }
