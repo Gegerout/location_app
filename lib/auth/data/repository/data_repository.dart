@@ -18,4 +18,10 @@ class DataRepository extends Repository {
     final data = await RemoteData().checkOtpCode(email, code);
     return data;
   }
+
+  @override
+  Future<bool> getLongAccessToken(String accessToken, int userId) async {
+    final data = await RemoteData().getLongAccessToken(accessToken, userId);
+    return data;
+  }
 }

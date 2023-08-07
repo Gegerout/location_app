@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/auth/presentation/providers/signup_provider.dart';
 import 'package:location_app/home/presentation/pages/home_page.dart';
 import 'package:receive_intent/receive_intent.dart';
 import 'package:uni_links/uni_links.dart';
 
-class LoadingPage extends StatefulWidget {
+class LoadingPage extends ConsumerStatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
 
   @override
-  State<LoadingPage> createState() => _LoadingPageState();
+  ConsumerState<LoadingPage> createState() => _LoadingPageState();
 }
 
-class _LoadingPageState extends State<LoadingPage> {
+class _LoadingPageState extends ConsumerState<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +22,20 @@ class _LoadingPageState extends State<LoadingPage> {
           if (snapshot.data != null) {
             final url = Uri.parse(snapshot.data!);
             var accessToken = url.queryParameters["access_token"];
-            if (accessToken != null) {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                    builder: (context) => HomePage(accessToken: accessToken)), (
-                    route) => false);
+            var userId = url.queryParameters["user_id"];
+            if (accessToken != null && userId != null) {
+              ref.read(signupProvider.notifier).getLongAccessToken(accessToken, int.parse(userId)).then((value) {
+                if(value) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                        builder: (context) => HomePage(accessToken: accessToken)), (
+                        route) => false);
+                  });
+                } else {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    Navigator.pop(context);
+                  });
+                }
               });
             } else {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

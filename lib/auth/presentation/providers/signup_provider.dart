@@ -21,4 +21,9 @@ class SignupNotifier extends ChangeNotifier {
     isValidCode = data;
     notifyListeners();
   }
+
+  Future<bool> getLongAccessToken(String accessToken, int userId) async {
+    final data = await DataRepository().getLongAccessToken(accessToken, userId);
+    return data;
+  }
 }
