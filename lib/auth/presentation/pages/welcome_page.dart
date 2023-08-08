@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location_app/auth/presentation/pages/create_account_page.dart';
+import 'package:location_app/auth/presentation/pages/signin_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class WelcomePage extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                   onPressed: () {
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) => const AddInstagramPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SigninPage()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,

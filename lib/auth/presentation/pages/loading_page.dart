@@ -37,7 +37,7 @@ class _LoadingPageState extends ConsumerState<LoadingPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                HomePage(accessToken: value.accessToken)),
+                                HomePage(userModel: value,)),
                         (route) => false);
                   });
                 } else {

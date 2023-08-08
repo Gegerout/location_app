@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.accessToken}) : super(key: key);
+import '../../../auth/data/models/user_model.dart';
 
-  final String accessToken;
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key, required this.userModel}) : super(key: key);
+
+  final UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Text(accessToken)),
+      body: SafeArea(child: Text(userModel.username)),
     );
   }
 }

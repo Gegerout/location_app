@@ -5,4 +5,5 @@ abstract class Repository {
   Future<bool> createUserAccount(String email, String password);
   Future<bool> checkOtpCode(String email, String code);
   Future<UserUseCase?> getUserInstagramData(String accessToken, int userId, String email);
+  Future<UserUseCase?> signinToAccount(String email, String password);
 }

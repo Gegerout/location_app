@@ -13,7 +13,8 @@ class RemoteData {
         mode: LaunchMode.externalApplication);
   }
 
-  Future<UserModel?> getUserInstagramData(String accessToken, int userId, String email) async {
+  Future<UserModel?> getUserInstagramData(
+      String accessToken, int userId, String email) async {
     final Dio dio = Dio();
     const apiUrl = "https://graph.instagram.com/";
     final accessResult =
@@ -28,7 +29,7 @@ class RemoteData {
         "fields": "account_type,id,media_count,username",
         "access_token": accessResult.data["access_token"]
       });
-      if(dataResult.statusCode == 200) {
+      if (dataResult.statusCode == 200) {
         final userModel = UserModel(
             userId,
             accessResult.data["access_token"],
@@ -36,7 +37,8 @@ class RemoteData {
             DateTime.now().toString(),
             dataResult.data["username"],
             dataResult.data["media_count"],
-            dataResult.data["account_type"], email);
+            dataResult.data["account_type"],
+            email);
         await supabase.from("users").insert({
           "access_token": accessResult.data["access_token"],
           "user_id": userId,
@@ -65,6 +67,17 @@ class RemoteData {
       return true;
     }
     return false;
+  }
+
+  Future<UserModel?> signinToAccount(String email, String password) async {
+    final res = await supabase.auth
+        .signInWithPassword(email: email, password: password);
+    if (res.user != null) {
+      final data = await supabase.from("users").select("*").eq("email", email);
+      final model = UserModel.fromJson(data[0]);
+      return model;
+    }
+    return null;
   }
 
   Future<bool> checkOtpCode(String email, String code) async {

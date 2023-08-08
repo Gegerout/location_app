@@ -29,4 +29,14 @@ class DataRepository extends Repository {
     }
     return null;
   }
+
+  @override
+  Future<UserUseCase?> signinToAccount(String email, String password) async {
+    final data = await RemoteData().signinToAccount(email, password);
+    if(data != null) {
+      final usecase = UserUseCase(data);
+      return usecase;
+    }
+    return null;
+  }
 }
