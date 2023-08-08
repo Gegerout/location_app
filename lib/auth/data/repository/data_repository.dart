@@ -36,6 +36,7 @@ class DataRepository extends Repository {
   Future<UserUseCase?> signinToAccount(String email, String password) async {
     final data = await RemoteData().signinToAccount(email, password);
     if(data != null) {
+      await LocalData().writeUserDataToStorage(data);
       final usecase = UserUseCase(data);
       return usecase;
     }
