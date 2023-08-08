@@ -71,6 +71,8 @@ class RemoteData {
 
   Future<UserModel?> signinToAccount(String email, String password) async {
     try {
+     await supabase.auth
+          .signInWithPassword(email: email, password: password);
       final data = await supabase.from("users").select("*").eq("email", email);
       final model = UserModel.fromJson(data[0]);
       return model;
