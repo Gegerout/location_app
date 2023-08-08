@@ -1,3 +1,4 @@
+import 'package:location_app/auth/data/data_sources/local_data.dart';
 import 'package:location_app/auth/data/data_sources/remote_data.dart';
 import 'package:location_app/auth/domain/repository/repository_impl.dart';
 import 'package:location_app/auth/domain/usecases/user_usecase.dart';
@@ -24,6 +25,7 @@ class DataRepository extends Repository {
   Future<UserUseCase?> getUserInstagramData(String accessToken, int userId, String email) async {
     final data = await RemoteData().getUserInstagramData(accessToken, userId, email);
     if(data != null) {
+      await LocalData().writeUserDataToStorage(data);
       final usecase = UserUseCase(data);
       return usecase;
     }
@@ -33,6 +35,16 @@ class DataRepository extends Repository {
   @override
   Future<UserUseCase?> signinToAccount(String email, String password) async {
     final data = await RemoteData().signinToAccount(email, password);
+    if(data != null) {
+      final usecase = UserUseCase(data);
+      return usecase;
+    }
+    return null;
+  }
+
+  @override
+  Future<UserUseCase?> getUserDataFromStorage() async {
+    final data = await LocalData().getUserDataFromStorage();
     if(data != null) {
       final usecase = UserUseCase(data);
       return usecase;
