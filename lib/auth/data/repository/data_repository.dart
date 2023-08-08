@@ -1,5 +1,6 @@
 import 'package:location_app/auth/data/data_sources/remote_data.dart';
 import 'package:location_app/auth/domain/repository/repository_impl.dart';
+import 'package:location_app/auth/domain/usecases/user_usecase.dart';
 
 class DataRepository extends Repository {
   @override
@@ -20,8 +21,12 @@ class DataRepository extends Repository {
   }
 
   @override
-  Future<bool> getLongAccessToken(String accessToken, int userId) async {
-    final data = await RemoteData().getLongAccessToken(accessToken, userId);
-    return data;
+  Future<UserUseCase?> getUserInstagramData(String accessToken, int userId, String email) async {
+    final data = await RemoteData().getUserInstagramData(accessToken, userId, email);
+    if(data != null) {
+      final usecase = UserUseCase(data);
+      return usecase;
+    }
+    return null;
   }
 }

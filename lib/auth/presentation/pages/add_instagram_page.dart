@@ -4,7 +4,9 @@ import 'package:location_app/auth/presentation/pages/loading_page.dart';
 import 'package:location_app/auth/presentation/providers/signup_provider.dart';
 
 class AddInstagramPage extends ConsumerWidget {
-  const AddInstagramPage({Key? key}) : super(key: key);
+  const AddInstagramPage(this.email, {Key? key}) : super(key: key);
+
+  final String email;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +21,7 @@ class AddInstagramPage extends ConsumerWidget {
                 onPressed: () {
                   ref.read(signupProvider.notifier).addInstagramAccount();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const LoadingPage()));
+                      MaterialPageRoute(builder: (context) => LoadingPage(email)));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

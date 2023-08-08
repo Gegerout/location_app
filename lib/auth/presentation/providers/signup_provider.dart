@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/auth/data/repository/data_repository.dart';
 
+import '../../data/models/user_model.dart';
+
 final signupProvider = ChangeNotifierProvider((ref) => SignupNotifier());
 
 class SignupNotifier extends ChangeNotifier {
@@ -22,8 +24,11 @@ class SignupNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> getLongAccessToken(String accessToken, int userId) async {
-    final data = await DataRepository().getLongAccessToken(accessToken, userId);
-    return data;
+  Future<UserModel?> getUserInstagramData(String accessToken, int userId, String email) async {
+    final data = await DataRepository().getUserInstagramData(accessToken, userId, email);
+    if(data != null) {
+      return data.data;
+    }
+    return null;
   }
 }

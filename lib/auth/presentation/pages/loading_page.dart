@@ -6,7 +6,9 @@ import 'package:receive_intent/receive_intent.dart';
 import 'package:uni_links/uni_links.dart';
 
 class LoadingPage extends ConsumerStatefulWidget {
-  const LoadingPage({Key? key}) : super(key: key);
+  const LoadingPage(this.email, {Key? key}) : super(key: key);
+
+  final String email;
 
   @override
   ConsumerState<LoadingPage> createState() => _LoadingPageState();
@@ -24,12 +26,19 @@ class _LoadingPageState extends ConsumerState<LoadingPage> {
             var accessToken = url.queryParameters["access_token"];
             var userId = url.queryParameters["user_id"];
             if (accessToken != null && userId != null) {
-              ref.read(signupProvider.notifier).getLongAccessToken(accessToken, int.parse(userId)).then((value) {
-                if(value) {
+              ref
+                  .read(signupProvider.notifier)
+                  .getUserInstagramData(
+                      accessToken, int.parse(userId), widget.email)
+                  .then((value) {
+                if (value != null) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                        builder: (context) => HomePage(accessToken: accessToken)), (
-                        route) => false);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                HomePage(accessToken: value.accessToken)),
+                        (route) => false);
                   });
                 } else {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

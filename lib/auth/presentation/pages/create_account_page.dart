@@ -86,10 +86,10 @@ class CreateAccountPage extends ConsumerWidget {
                     ref
                         .read(signupProvider.notifier)
                         .createUserAccount(emailCont.text, passwordCont.text).then((value) {
-                          if(value) {
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddInstagramPage()));
-                          }
+                      if(value) {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddInstagramPage(emailCont.text)));
+                      }
                     });
                   },
                   style: ElevatedButton.styleFrom(
