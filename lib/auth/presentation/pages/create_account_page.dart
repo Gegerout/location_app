@@ -90,6 +90,18 @@ class CreateAccountPage extends ConsumerWidget {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AddInstagramPage(emailCont.text)));
                       }
+                      else {
+                        showDialog(context: context, builder: (context) => AlertDialog(
+                          title: const Text("Something went wrong"),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Ok"))
+                          ],
+                        ));
+                      }
                     });
                   },
                   style: ElevatedButton.styleFrom(
