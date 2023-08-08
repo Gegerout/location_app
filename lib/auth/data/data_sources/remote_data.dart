@@ -56,28 +56,35 @@ class RemoteData {
   }
 
   Future<bool> createUserAccount(String email, String password) async {
-    // try {
-    //   await supabase.auth.signUp(email: email, password: password);
-    //   return true;
-    // } on AuthException {
-    //   return false;
-    // }
-    final res = await supabase.auth.signUp(email: email, password: password);
-    if (res.user != null) {
+    try {
+      await supabase.auth.signUp(email: email, password: password);
       return true;
+    } on AuthException {
+      return false;
     }
-    return false;
+    // final res = await supabase.auth.signUp(email: email, password: password);
+    // if (res.user != null) {
+    //   return true;
+    // }
+    // return false;
   }
 
   Future<UserModel?> signinToAccount(String email, String password) async {
-    final res = await supabase.auth
-        .signInWithPassword(email: email, password: password);
-    if (res.user != null) {
+    try {
       final data = await supabase.from("users").select("*").eq("email", email);
       final model = UserModel.fromJson(data[0]);
       return model;
+    } on AuthException {
+      return null;
     }
-    return null;
+    // final res = await supabase.auth
+    //     .signInWithPassword(email: email, password: password);
+    // if (res.user != null) {
+    //   final data = await supabase.from("users").select("*").eq("email", email);
+    //   final model = UserModel.fromJson(data[0]);
+    //   return model;
+    // }
+    // return null;
   }
 
   Future<bool> checkOtpCode(String email, String code) async {
