@@ -37,7 +37,21 @@ class HomePage extends ConsumerWidget {
                             width: 100,
                             child: CachedNetworkImage(
                               imageUrl: value[index].mediaUrl,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      Center(
+                                        child: SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                        ),
+                                      ),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error,
+                                color: Colors.redAccent,
+                              ),
                             ));
                       });
                 }
