@@ -7,7 +7,7 @@ class PostsImagesModel {
     return PostsImagesModel(json["media_url"]);
   }
 
-  Map<String, dynamic> tojson() => {
+  Map<String, dynamic> toJson() => {
     "media_url": mediaUrl
   };
 }
