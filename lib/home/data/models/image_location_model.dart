@@ -6,7 +6,7 @@ class ImageLocationModel {
 
   ImageLocationModel(this.instagramLocation, this.loadedLocation, this.latitude, this.longitude);
 
-  factory ImageLocationModel.formJson(Map<String, dynamic> json) {
+  factory ImageLocationModel.fromJson(Map<String, dynamic> json) {
     return ImageLocationModel(json["inst_loc"], json["load_loc"], json["lat"], json["lng"]);
   }
 

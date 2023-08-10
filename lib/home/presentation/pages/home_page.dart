@@ -25,35 +25,37 @@ class HomePage extends ConsumerWidget {
           ref.watch(getImagesFromProfileProvider(userModel.accessToken)).when(
               data: (value) {
                 if (value != null) {
-                  return GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4),
-                      itemCount: value.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: CachedNetworkImage(
-                              imageUrl: value[index].mediaUrl,
-                              fit: BoxFit.cover,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      Center(
-                                        child: SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                        ),
+                  if(value.imagesData != null) {
+                    return GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4),
+                        itemCount: value.imagesData!.data.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: CachedNetworkImage(
+                                imageUrl: value.imagesData!.data[index].mediaUrl,
+                                fit: BoxFit.cover,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                    Center(
+                                      child: SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
                                       ),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.error,
-                                color: Colors.redAccent,
-                              ),
-                            ));
-                      });
+                                    ),
+                                errorWidget: (context, url, error) => const Icon(
+                                  Icons.error,
+                                  color: Colors.redAccent,
+                                ),
+                              ));
+                        });
+                  }
                 }
                 return const Text("Something went wrong");
               },
