@@ -1,80 +1,57 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_app/home/presentation/pages/locations_page.dart';
+import 'package:location_app/home/presentation/pages/profile_page.dart';
 import 'package:location_app/home/presentation/providers/get_images_provider.dart';
 
 import '../../../auth/data/models/user_model.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.userModel}) : super(key: key);
 
   final UserModel userModel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
+  List pages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      ProfilePage(userModel: widget.userModel),
+      LocationsPage(userModel: widget.userModel)
+    ];
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home page"),
-      ),
-      body: Column(
-        children: [
-          Text(
-            userModel.username,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+        body: pages.elementAt(currentIndex),
+      bottomNavigationBar:  BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.image),
+            label: 'Profile',
           ),
-          ref.watch(getImagesFromProfileProvider(userModel.accessToken)).when(
-              data: (value) {
-                if (value != null) {
-                  if(value.imagesData != null) {
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4),
-                        itemCount: value.imagesData!.data.length,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: CachedNetworkImage(
-                                imageUrl: value.imagesData!.data[index].mediaUrl,
-                                fit: BoxFit.cover,
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                    Center(
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                      ),
-                                    ),
-                                errorWidget: (context, url, error) => const Icon(
-                                  Icons.error,
-                                  color: Colors.redAccent,
-                                ),
-                              ));
-                        });
-                  }
-                }
-                return const Text("Something went wrong");
-              },
-              error: (error, stacktrace) {
-                return AlertDialog(
-                  title: Text(error.toString()),
-                  actions: [
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Ok"))
-                  ],
-                );
-              },
-              loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ))
+          BottomNavigationBarItem(
+            icon: Icon(Icons.subtitles),
+            label: 'Locations',
+          ),
         ],
+        currentIndex: currentIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
