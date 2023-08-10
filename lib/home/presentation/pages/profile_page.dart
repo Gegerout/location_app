@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_app/home/presentation/providers/get_images_provider.dart';
 
 import '../../../auth/data/models/user_model.dart';
+import '../providers/get_posts_data.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key, required this.userModel}) : super(key: key);
@@ -22,7 +22,7 @@ class ProfilePage extends ConsumerWidget {
             userModel.username,
             style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
           ),
-          ref.watch(getImagesFromProfileProvider(userModel.accessToken)).when(
+          ref.watch(getPostsDataProvider(userModel.accessToken)).when(
               data: (value) {
                 if (value != null) {
                   if(value.imagesData != null) {

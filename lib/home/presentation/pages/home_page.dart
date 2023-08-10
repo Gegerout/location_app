@@ -1,9 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/home/presentation/pages/locations_page.dart';
 import 'package:location_app/home/presentation/pages/profile_page.dart';
-import 'package:location_app/home/presentation/providers/get_images_provider.dart';
 
 import '../../../auth/data/models/user_model.dart';
 

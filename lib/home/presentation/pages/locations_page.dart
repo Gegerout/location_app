@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_app/home/presentation/providers/get_images_provider.dart';
 
 import '../../../auth/data/models/user_model.dart';
+import '../providers/get_posts_data.dart';
 
 class LocationsPage extends ConsumerWidget {
   const LocationsPage({Key? key, required this.userModel}) : super(key: key);
@@ -15,14 +15,35 @@ class LocationsPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("Locations page"),
       ),
-      body: ref.watch(getImagesFromProfileProvider(userModel.accessToken)).when(
+      body: ref.watch(getPostsDataProvider(userModel.accessToken)).when(
               data: (value) {
-                return ListView.builder(
-                  itemCount: value!.locationData!.data.length,
-                  itemBuilder: (context, index) {
-                    return Text(value!.locationData!.data[index].instagramLocation);
-                  },
-                );
+                if(value != null) {
+                  if(value.locationData != null) {
+                    List cities = [];
+                    List countries = [];
+
+                    for (var element in value.locationData!.data) {
+                      final location = element.loadedLocation.split(",");
+                      if(location.length >= 2) {
+                        if(!cities.contains(location[1])) {
+                          cities.add(location[1]);
+                          countries.add(location[0]);
+                        }
+                      } else {
+                        cities.add(location[0]);
+                        countries.add("");
+                      }
+                    }
+
+                    return ListView.builder(
+                      itemCount: cities.length,
+                      itemBuilder: (context, index) {
+                        return Text("${cities[index]}, ${countries[index]}");
+                      },
+                    );
+                  }
+                }
+                return const Text("Something went wrong");
               },
               error: (error, stacktrace) {
                 return AlertDialog(
