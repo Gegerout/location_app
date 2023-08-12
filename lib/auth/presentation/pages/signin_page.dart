@@ -89,11 +89,11 @@ class SigninPage extends ConsumerWidget {
                         .then((value) {
                       if (value != null) {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
-                        Navigator.push(
+                        Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    HomePage(userModel: value,)));
+                                    HomePage(userModel: value,)), (route) => false);
                       }
                       else {
                         showDialog(context: context, builder: (context) => AlertDialog(

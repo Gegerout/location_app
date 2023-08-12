@@ -37,7 +37,7 @@ class MapPage extends ConsumerWidget {
               children: [
                 TileLayer(
                   urlTemplate:
-                      "https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png",
+                      "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                   userAgentPackageName: 'com.example.app',
                 ),
                 MarkerLayer(
