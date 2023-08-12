@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_app/auth/presentation/pages/signin_page.dart';
+import 'package:location_app/auth/presentation/pages/welcome_page.dart';
+import 'package:location_app/core/providers/main_provider.dart';
+import 'package:location_app/home/presentation/pages/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -12,20 +14,41 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: SigninPage(),
+        body: ref.watch(getUserDataProvider).when(
+                data: (value) {
+                  if(value != null) {
+                    return HomePage(userModel: value);
+                  }
+                  return const WelcomePage();
+                },
+                error: (error, stacktrace) {
+                  return AlertDialog(
+                            title: Text(error.toString()),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Ok"))
+                            ],
+                          );
+                },
+                loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                )),
       ),
     );
   }

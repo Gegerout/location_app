@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/auth/presentation/pages/add_instagram_page.dart';
-import 'package:location_app/auth/presentation/providers/signin_provider.dart';
+import 'package:location_app/auth/presentation/pages/otp_verification_page.dart';
 import 'package:location_app/auth/presentation/providers/signup_provider.dart';
 import 'package:location_app/home/presentation/pages/home_page.dart';
 
-class SigninPage extends ConsumerWidget {
-  SigninPage({Key? key}) : super(key: key);
+class CreateAccountPage extends ConsumerWidget {
+  CreateAccountPage({Key? key}) : super(key: key);
 
   final TextEditingController emailCont = TextEditingController();
   final TextEditingController passwordCont = TextEditingController();
@@ -15,7 +15,7 @@ class SigninPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign in"),
+        title: const Text("Create Account"),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24),
@@ -84,20 +84,15 @@ class SigninPage extends ConsumerWidget {
               child: ElevatedButton(
                   onPressed: () {
                     ref
-                        .read(signinProvider.notifier)
-                        .signinToAccount(emailCont.text, passwordCont.text)
-                        .then((value) {
-                      if (value != null) {
+                        .read(signupProvider.notifier)
+                        .createUserAccount(emailCont.text, passwordCont.text).then((value) {
+                      if(value) {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HomePage(userModel: value,)), (route) => false);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddInstagramPage(emailCont.text)));
                       }
                       else {
                         showDialog(context: context, builder: (context) => AlertDialog(
-                          title: const Text("Wrong credentials"),
+                          title: const Text("Something went wrong"),
                           actions: [
                             ElevatedButton(
                                 onPressed: () {
@@ -113,7 +108,7 @@ class SigninPage extends ConsumerWidget {
                       backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                  child: const Text("Sign in",
+                  child: const Text("Create account",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
