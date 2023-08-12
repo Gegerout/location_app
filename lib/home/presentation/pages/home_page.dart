@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location_app/home/presentation/pages/locations_page.dart';
+import 'package:location_app/home/presentation/pages/map_page.dart';
 import 'package:location_app/home/presentation/pages/profile_page.dart';
 
 import '../../../auth/data/models/user_model.dart';
@@ -22,7 +23,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     pages = [
       ProfilePage(userModel: widget.userModel),
-      LocationsPage(userModel: widget.userModel)
+      LocationsPage(userModel: widget.userModel),
+      MapPage(userModel: widget.userModel)
     ];
   }
 
@@ -45,6 +47,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.subtitles),
             label: 'Locations',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
           ),
         ],
         currentIndex: currentIndex,
