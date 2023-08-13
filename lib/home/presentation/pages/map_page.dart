@@ -17,45 +17,105 @@ class MapPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Locations page"),
+        title: const Text("Map page"),
       ),
       body: ref.watch(getPostsDataProvider(userModel.accessToken)).when(
           data: (value) {
-            List<Marker> markers = value!.$1!.locationData!.data
-                .map((e) => Marker(
-                    point: LatLng(e.latitude, e.longitude),
-                    builder: (context) => const Icon(
-                          Icons.pin_drop,
-                          size: 30,
-                          color: Colors.redAccent,
-                        )))
-                .toList();
-
             Map<String, dynamic> cities = {};
 
-            for (var element in value.$1!.locationData!.data) {
+            for (var element in value!.$1!.locationData!.data) {
               final location = element.loadedLocation.split(",");
               if (location.length >= 2) {
-                if (!cities.containsKey(location[1])) {
+                if (!cities.containsKey("${element.latitude}, ${element.longitude}")) {
                   cities.addAll({
-                    location[1]: [element.mediaUrl]
+                    "${element.latitude}, ${element.longitude}": {
+                      "urls": [element.mediaUrl],
+                      "point": [element.latitude, element.longitude]
+                    },
                   });
                 } else {
-                  final List permalinks = cities[location[1]];
+                  final List permalinks = cities["${element.latitude}, ${element.longitude}"]["urls"];
                   permalinks.add(element.mediaUrl);
-                  cities.update(location[1], (value) => permalinks);
+                  cities.update(
+                      "${element.latitude}, ${element.longitude}",
+                      (value) => {
+                            "urls": permalinks,
+                            "point": [element.latitude, element.longitude]
+                          });
                 }
               } else {
                 cities.addAll({
-                  location[0]: [element.mediaUrl]
+                  "${element.latitude}, ${element.longitude}": {
+                    "urls": [element.mediaUrl],
+                    "point": [element.latitude, element.longitude]
+                  },
                 });
               }
             }
 
+            print(cities);
+
+            List<Marker> markers = value.$1!.locationData!.data
+                .map((e) => Marker(
+                    point: LatLng(e.latitude, e.longitude),
+                    builder: (context) => InkWell(
+                          onTap: () {
+                            final citiesData = cities.values.where((element) =>
+                                element["point"][0] == e.latitude &&
+                                element["point"][1] == e.longitude).first;
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return SizedBox(
+                                      height: 300,
+                                      child: GridView.builder(
+                                          shrinkWrap: true,
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 4),
+                                          itemCount:
+                                              citiesData["urls"].length,
+                                          itemBuilder: (context, index) {
+                                            return SizedBox(
+                                                height: 100,
+                                                width: 100,
+                                                child: CachedNetworkImage(
+                                                  imageUrl: citiesData["urls"][index],
+                                                  fit: BoxFit.cover,
+                                                  progressIndicatorBuilder:
+                                                      (context, url,
+                                                              downloadProgress) =>
+                                                          Center(
+                                                    child: SizedBox(
+                                                      height: 40,
+                                                      width: 40,
+                                                      child: CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress),
+                                                    ),
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          const Icon(
+                                                    Icons.error,
+                                                    color: Colors.redAccent,
+                                                  ),
+                                                ));
+                                          }));
+                                });
+                          },
+                          child: const Icon(
+                            Icons.pin_drop,
+                            size: 30,
+                            color: Colors.redAccent,
+                          ),
+                        )))
+                .toList();
+
             return FlutterMap(
               options: MapOptions(
-                  center: LatLng(value.$2.latitude,
-                      value.$2.longitude),
+                  center: LatLng(value.$2.latitude, value.$2.longitude),
                   zoom: 14),
               children: [
                 TileLayer(
