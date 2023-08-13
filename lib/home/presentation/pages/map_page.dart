@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -36,6 +38,7 @@ class MapPage extends ConsumerWidget {
                   zoom: 14),
               children: [
                 TileLayer(
+                  tileProvider: FMTC.instance('mapStore').getTileProvider(),
                   urlTemplate:
                       "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                   userAgentPackageName: 'com.example.app',
