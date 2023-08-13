@@ -20,13 +20,13 @@ class RemoteData {
     return null;
   }
 
-  Future<List<ImageLocationModel>?> getLocationsFromPosts(List<String> permalinks) async {
+  Future<List<ImageLocationModel>?> getLocationsFromPosts(List<String> permalinks, List<String> mediaUrls) async {
     final Dio dio = Dio();
     const apiUrl = "https://api.lamadava.com/a1/media";
     const geocodeUrl = "https://geocode-maps.yandex.ru/1.x/";
     List<ImageLocationModel> models = [];
-    for (var element in permalinks) {
-      final code = element.split("/")[4];
+    for (int i = 0; i < permalinks.length; i++) {
+      final code = permalinks[i].split("/")[4];
       final apiRes = await dio.get(apiUrl, queryParameters: {
         "code": code,
         "access_key": "s2HqbpF1faMIvCgJsGfcL3saMosSFFSz"
@@ -44,7 +44,7 @@ class RemoteData {
           final loadedLocation = res
               .data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
           "GeocoderMetaData"]["text"];
-          final model = ImageLocationModel(instagramLocation, loadedLocation, latitude, longitude, element);
+          final model = ImageLocationModel(instagramLocation, loadedLocation, latitude, longitude, mediaUrls[i]);
           models.add(model);
         } on NoSuchMethodError {
           continue;

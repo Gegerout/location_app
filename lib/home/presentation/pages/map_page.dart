@@ -38,16 +38,16 @@ class MapPage extends ConsumerWidget {
               if (location.length >= 2) {
                 if (!cities.containsKey(location[1])) {
                   cities.addAll({
-                    location[1]: [element.permalink]
+                    location[1]: [element.mediaUrl]
                   });
                 } else {
                   final List permalinks = cities[location[1]];
-                  permalinks.add(element.permalink);
+                  permalinks.add(element.mediaUrl);
                   cities.update(location[1], (value) => permalinks);
                 }
               } else {
                 cities.addAll({
-                  location[0]: [element.permalink]
+                  location[0]: [element.mediaUrl]
                 });
               }
             }
