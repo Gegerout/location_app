@@ -18,11 +18,11 @@ class LocationsPage extends ConsumerWidget {
       body: ref.watch(getPostsDataProvider(userModel.accessToken)).when(
           data: (value) {
             if (value != null) {
-              if (value.locationData != null) {
+              if (value.$1?.locationData != null) {
                 List cities = [];
                 List countries = [];
 
-                for (var element in value.locationData!.data) {
+                for (var element in value.$1!.locationData!.data) {
                   final location = element.loadedLocation.split(",");
                   if (location.length >= 2) {
                     if (!cities.contains(location[1])) {

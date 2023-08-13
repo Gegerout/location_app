@@ -44,7 +44,7 @@ class RemoteData {
           final loadedLocation = res
               .data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
           "GeocoderMetaData"]["text"];
-          final model = ImageLocationModel(instagramLocation, loadedLocation, latitude, longitude);
+          final model = ImageLocationModel(instagramLocation, loadedLocation, latitude, longitude, element);
           models.add(model);
         } on NoSuchMethodError {
           continue;

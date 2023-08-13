@@ -21,7 +21,7 @@ class MapPage extends ConsumerWidget {
       ),
       body: ref.watch(getPostsDataProvider(userModel.accessToken)).when(
           data: (value) {
-            List<Marker> markers = value!.locationData!.data
+            List<Marker> markers = value!.$1!.locationData!.data
                 .map((e) => Marker(
                     point: LatLng(e.latitude, e.longitude),
                     builder: (context) => const Icon(
@@ -31,10 +31,31 @@ class MapPage extends ConsumerWidget {
                         )))
                 .toList();
 
+            Map<String, dynamic> cities = {};
+
+            for (var element in value.$1!.locationData!.data) {
+              final location = element.loadedLocation.split(",");
+              if (location.length >= 2) {
+                if (!cities.containsKey(location[1])) {
+                  cities.addAll({
+                    location[1]: [element.permalink]
+                  });
+                } else {
+                  final List permalinks = cities[location[1]];
+                  permalinks.add(element.permalink);
+                  cities.update(location[1], (value) => permalinks);
+                }
+              } else {
+                cities.addAll({
+                  location[0]: [element.permalink]
+                });
+              }
+            }
+
             return FlutterMap(
               options: MapOptions(
-                  center: LatLng(value.locationData!.data.last.latitude,
-                      value.locationData!.data.last.longitude),
+                  center: LatLng(value.$2.latitude,
+                      value.$2.longitude),
                   zoom: 14),
               children: [
                 TileLayer(
@@ -46,12 +67,6 @@ class MapPage extends ConsumerWidget {
                 MarkerLayer(
                   markers: markers,
                 ),
-                // PolylineLayer(
-                //   polylineCulling: false,
-                //   polylines: [
-                //     Polyline(points: value.$3, color: AppColors.primaryColor, strokeWidth: 3,)
-                //   ],
-                // )
               ],
             );
           },

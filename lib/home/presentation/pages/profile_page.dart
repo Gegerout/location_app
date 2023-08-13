@@ -25,19 +25,19 @@ class ProfilePage extends ConsumerWidget {
           ref.watch(getPostsDataProvider(userModel.accessToken)).when(
               data: (value) {
                 if (value != null) {
-                  if(value.imagesData != null) {
+                  if(value.$1?.imagesData != null) {
                     return GridView.builder(
                         shrinkWrap: true,
                         gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4),
-                        itemCount: value.imagesData!.data.length,
+                        itemCount: value.$1!.imagesData!.data.length,
                         itemBuilder: (context, index) {
                           return SizedBox(
                               height: 100,
                               width: 100,
                               child: CachedNetworkImage(
-                                imageUrl: value.imagesData!.data[index].mediaUrl,
+                                imageUrl: value.$1!.imagesData!.data[index].mediaUrl,
                                 fit: BoxFit.cover,
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) =>
