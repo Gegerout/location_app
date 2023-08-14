@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,28 +52,35 @@ class ProfilePage extends ConsumerWidget {
                                   crossAxisCount: 4),
                           itemCount: value.$1!.imagesData!.data.length,
                           itemBuilder: (context, index) {
-                            return SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      value.$1!.imagesData!.data[index].mediaUrl,
-                                  fit: BoxFit.cover,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) => Center(
-                                    child: SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: CircularProgressIndicator(
-                                          value: downloadProgress.progress),
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(
-                                    Icons.error,
-                                    color: Colors.redAccent,
-                                  ),
+                            return InkWell(
+                              onTap: () {
+                                showImageViewer(context, CachedNetworkImageProvider(
+                                  value.$1!.imagesData!.data[index].mediaUrl,
                                 ));
+                              },
+                              child: SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        value.$1!.imagesData!.data[index].mediaUrl,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) => Center(
+                                      child: SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(
+                                      Icons.error,
+                                      color: Colors.redAccent,
+                                    ),
+                                  )),
+                            );
                           });
                     }
                   }
