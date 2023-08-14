@@ -26,7 +26,8 @@ class MapPage extends ConsumerWidget {
             for (var element in value!.$1!.locationData!.data) {
               final location = element.loadedLocation.split(",");
               if (location.length >= 2) {
-                if (!cities.containsKey("${element.latitude}, ${element.longitude}")) {
+                if (!cities
+                    .containsKey("${element.latitude}, ${element.longitude}")) {
                   cities.addAll({
                     "${element.latitude}, ${element.longitude}": {
                       "urls": [element.mediaUrl],
@@ -34,7 +35,9 @@ class MapPage extends ConsumerWidget {
                     },
                   });
                 } else {
-                  final List permalinks = cities["${element.latitude}, ${element.longitude}"]["urls"];
+                  final List permalinks =
+                      cities["${element.latitude}, ${element.longitude}"]
+                          ["urls"];
                   permalinks.add(element.mediaUrl);
                   cities.update(
                       "${element.latitude}, ${element.longitude}",
@@ -60,9 +63,11 @@ class MapPage extends ConsumerWidget {
                     point: LatLng(e.latitude, e.longitude),
                     builder: (context) => InkWell(
                           onTap: () {
-                            final citiesData = cities.values.where((element) =>
-                                element["point"][0] == e.latitude &&
-                                element["point"][1] == e.longitude).first;
+                            final citiesData = cities.values
+                                .where((element) =>
+                                    element["point"][0] == e.latitude &&
+                                    element["point"][1] == e.longitude)
+                                .first;
                             showModalBottomSheet(
                                 context: context,
                                 builder: (context) {
@@ -73,14 +78,14 @@ class MapPage extends ConsumerWidget {
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 4),
-                                          itemCount:
-                                              citiesData["urls"].length,
+                                          itemCount: citiesData["urls"].length,
                                           itemBuilder: (context, index) {
                                             return SizedBox(
                                                 height: 100,
                                                 width: 100,
                                                 child: CachedNetworkImage(
-                                                  imageUrl: citiesData["urls"][index],
+                                                  imageUrl: citiesData["urls"]
+                                                      [index],
                                                   fit: BoxFit.cover,
                                                   progressIndicatorBuilder:
                                                       (context, url,
@@ -113,6 +118,14 @@ class MapPage extends ConsumerWidget {
                         )))
                 .toList();
 
+            markers.add(Marker(
+                point: LatLng(value.$2.latitude, value.$2.longitude),
+                builder: (context) => const Icon(
+                      Icons.person,
+                      size: 30,
+                      color: Colors.blue,
+                    )));
+
             return FlutterMap(
               options: MapOptions(
                   center: LatLng(value.$2.latitude, value.$2.longitude),
@@ -122,7 +135,7 @@ class MapPage extends ConsumerWidget {
                   tileProvider: FMTC.instance('mapStore').getTileProvider(),
                   urlTemplate:
                       "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
-                  userAgentPackageName: 'com.example.app',
+                  userAgentPackageName: 'com.locationapp',
                 ),
                 MarkerLayer(
                   markers: markers,
