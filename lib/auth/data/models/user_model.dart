@@ -7,9 +7,18 @@ class UserModel {
   final int mediaCount;
   final String accountType;
   final String email;
+  final String profilePicture;
 
-  UserModel(this.userId, this.accessToken, this.expiresIn, this.createdAt,
-      this.username, this.mediaCount, this.accountType, this.email);
+  UserModel(
+      this.userId,
+      this.accessToken,
+      this.expiresIn,
+      this.createdAt,
+      this.username,
+      this.mediaCount,
+      this.accountType,
+      this.email,
+      this.profilePicture);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -20,7 +29,8 @@ class UserModel {
         json["username"],
         json["media_count"],
         json["account_type"],
-        json["email"]);
+        json["email"],
+        json["profile_pic"]);
   }
 
   Map<String, dynamic> toJson() => {
@@ -31,6 +41,7 @@ class UserModel {
         "username": username,
         "media_count": mediaCount,
         "account_type": accountType,
-        "email": email
+        "email": email,
+        "profile_pic": profilePicture
       };
 }

@@ -30,6 +30,11 @@ class RemoteData {
         "access_token": accessResult.data["access_token"]
       });
       if (dataResult.statusCode == 200) {
+        final getProfilePicture =
+            await dio.get("https://api.lamadava.com/a1/user", queryParameters: {
+          "username": dataResult.data["username"],
+          "access_key": "CiCkPmQeOITDhlcNFUAbAuI0YHl5n3Lp"
+        });
         final userModel = UserModel(
             userId,
             accessResult.data["access_token"],
@@ -38,7 +43,8 @@ class RemoteData {
             dataResult.data["username"],
             dataResult.data["media_count"],
             dataResult.data["account_type"],
-            email);
+            email,
+            getProfilePicture.data["graphql"]["user"]["profile_pic_url_hd"]);
         await supabase.from("users").insert({
           "access_token": accessResult.data["access_token"],
           "user_id": userId,
