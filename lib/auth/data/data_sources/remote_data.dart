@@ -13,25 +13,25 @@ class RemoteData {
         mode: LaunchMode.externalApplication);
   }
 
-  Future<UserModel?> getUserInstagramData(
-      String accessToken, int userId, String email) async {
+  Future<UserModel?> getUserInstagramData(String accessToken, int userId,
+      String email) async {
     final Dio dio = Dio();
     const apiUrl = "https://graph.instagram.com/";
     final accessResult =
-        await dio.get("${apiUrl}access_token", queryParameters: {
+    await dio.get("${apiUrl}access_token", queryParameters: {
       "grant_type": "ig_exchange_token",
       "client_secret": "0a9a45db5c6d7181db1fa791d3ee87eb",
       "access_token": accessToken
     });
     if (accessResult.statusCode == 200) {
       final dataResult =
-          await dio.get("${apiUrl}v17.0/$userId", queryParameters: {
+      await dio.get("${apiUrl}v17.0/$userId", queryParameters: {
         "fields": "account_type,id,media_count,username",
         "access_token": accessResult.data["access_token"]
       });
       if (dataResult.statusCode == 200) {
         final getProfilePicture =
-            await dio.get("https://api.lamadava.com/a1/user", queryParameters: {
+        await dio.get("https://api.lamadava.com/a1/user", queryParameters: {
           "username": dataResult.data["username"],
           "access_key": "CiCkPmQeOITDhlcNFUAbAuI0YHl5n3Lp"
         });
@@ -52,7 +52,9 @@ class RemoteData {
           "username": dataResult.data["username"],
           "media_count": dataResult.data["media_count"],
           "account_type": dataResult.data["account_type"],
-          "email": email
+          "email": email,
+          "profile_pic": getProfilePicture
+              .data["graphql"]["user"]["profile_pic_url_hd"]
         });
         return userModel;
       }
