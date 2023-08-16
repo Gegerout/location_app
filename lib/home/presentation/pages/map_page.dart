@@ -78,7 +78,12 @@ class MapPage extends ConsumerWidget {
                                   return Column(
                                     children: [
                                       const SizedBox(height: 20),
-                                      Text(citiesData["city"], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                                      Text(
+                                        citiesData["city"],
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                       const SizedBox(height: 20),
                                       SizedBox(
                                           height: 400,
