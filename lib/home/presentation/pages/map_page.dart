@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
@@ -31,6 +32,7 @@ class MapPage extends ConsumerWidget {
                   cities.addAll({
                     "${element.latitude}, ${element.longitude}": {
                       "urls": [element.mediaUrl],
+                      "city": "${location[1]}, ${location[0]}",
                       "point": [element.latitude, element.longitude]
                     },
                   });
@@ -43,6 +45,7 @@ class MapPage extends ConsumerWidget {
                       "${element.latitude}, ${element.longitude}",
                       (value) => {
                             "urls": permalinks,
+                            "city": "${location[1]}, ${location[0]}",
                             "point": [element.latitude, element.longitude]
                           });
                 }
@@ -50,6 +53,7 @@ class MapPage extends ConsumerWidget {
                 cities.addAll({
                   "${element.latitude}, ${element.longitude}": {
                     "urls": [element.mediaUrl],
+                    "city": location[0],
                     "point": [element.latitude, element.longitude]
                   },
                 });
@@ -71,43 +75,61 @@ class MapPage extends ConsumerWidget {
                             showModalBottomSheet(
                                 context: context,
                                 builder: (context) {
-                                  return SizedBox(
-                                      height: 300,
-                                      child: GridView.builder(
-                                          shrinkWrap: true,
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 4),
-                                          itemCount: citiesData["urls"].length,
-                                          itemBuilder: (context, index) {
-                                            return SizedBox(
-                                                height: 100,
-                                                width: 100,
-                                                child: CachedNetworkImage(
-                                                  imageUrl: citiesData["urls"]
-                                                      [index],
-                                                  fit: BoxFit.cover,
-                                                  progressIndicatorBuilder:
-                                                      (context, url,
-                                                              downloadProgress) =>
-                                                          Center(
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 40,
-                                                      child: CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress),
-                                                    ),
-                                                  ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          const Icon(
-                                                    Icons.error,
-                                                    color: Colors.redAccent,
-                                                  ),
-                                                ));
-                                          }));
+                                  return Column(
+                                    children: [
+                                      const SizedBox(height: 20),
+                                      Text(citiesData["city"], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                                      const SizedBox(height: 20),
+                                      SizedBox(
+                                          height: 400,
+                                          child: GridView.builder(
+                                              shrinkWrap: true,
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 4),
+                                              itemCount:
+                                                  citiesData["urls"].length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    showImageViewer(
+                                                        context,
+                                                        CachedNetworkImageProvider(
+                                                            citiesData["urls"]
+                                                                [index]));
+                                                  },
+                                                  child: SizedBox(
+                                                      height: 100,
+                                                      width: 100,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            citiesData["urls"]
+                                                                [index],
+                                                        fit: BoxFit.cover,
+                                                        progressIndicatorBuilder:
+                                                            (context, url,
+                                                                    downloadProgress) =>
+                                                                Center(
+                                                          child: SizedBox(
+                                                            height: 40,
+                                                            width: 40,
+                                                            child: CircularProgressIndicator(
+                                                                value: downloadProgress
+                                                                    .progress),
+                                                          ),
+                                                        ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                          Icons.error,
+                                                          color:
+                                                              Colors.redAccent,
+                                                        ),
+                                                      )),
+                                                );
+                                              })),
+                                    ],
+                                  );
                                 });
                           },
                           child: const Icon(
