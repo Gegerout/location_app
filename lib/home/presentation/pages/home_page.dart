@@ -37,8 +37,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: pages.elementAt(currentIndex),
-      bottomNavigationBar:  BottomNavigationBar(
+      body: pages.elementAt(currentIndex),
+      bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.image),

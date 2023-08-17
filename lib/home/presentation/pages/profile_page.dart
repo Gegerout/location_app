@@ -31,11 +31,13 @@ class ProfilePage extends ConsumerWidget {
                           height: 100,
                           child: CachedNetworkImage(
                               imageUrl: userModel.profilePicture))),
-                  const SizedBox(width: 20,),
+                  const SizedBox(
+                    width: 20,
+                  ),
                   Text(
                     userModel.username,
-                    style:
-                        const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 20),
                   ),
                 ],
               ),
@@ -45,7 +47,7 @@ class ProfilePage extends ConsumerWidget {
                   if (value != null) {
                     if (value.$1?.imagesData != null) {
                       return GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -54,19 +56,23 @@ class ProfilePage extends ConsumerWidget {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                showImageViewer(context, CachedNetworkImageProvider(
-                                  value.$1!.imagesData!.data[index].mediaUrl,
-                                ));
+                                showImageViewer(
+                                    context,
+                                    CachedNetworkImageProvider(
+                                      value
+                                          .$1!.imagesData!.data[index].mediaUrl,
+                                    ));
                               },
                               child: SizedBox(
                                   height: 100,
                                   width: 100,
                                   child: CachedNetworkImage(
-                                    imageUrl:
-                                        value.$1!.imagesData!.data[index].mediaUrl,
+                                    imageUrl: value
+                                        .$1!.imagesData!.data[index].mediaUrl,
                                     fit: BoxFit.cover,
                                     progressIndicatorBuilder:
-                                        (context, url, downloadProgress) => Center(
+                                        (context, url, downloadProgress) =>
+                                            Center(
                                       child: SizedBox(
                                         height: 40,
                                         width: 40,
