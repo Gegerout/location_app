@@ -29,7 +29,7 @@ class _LoadingPageState extends ConsumerState<LoadingPage> {
               ref
                   .read(signupProvider.notifier)
                   .getUserInstagramData(
-                      accessToken, int.parse(userId), widget.email)
+                  accessToken, int.parse(userId), widget.email)
                   .then((value) {
                 if (value != null) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -38,7 +38,7 @@ class _LoadingPageState extends ConsumerState<LoadingPage> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 HomePage(userModel: value,)),
-                        (route) => false);
+                            (route) => false);
                   });
                 } else {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
