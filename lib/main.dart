@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/auth/presentation/pages/welcome_page.dart';
 import 'package:location_app/core/providers/main_provider.dart';
@@ -10,6 +11,8 @@ Future<void> main() async {
     url: 'https://rrtxhumsrdoxrnqaohnc.supabase.co',
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJydHhodW1zcmRveHJucWFvaG5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTEyMjg5NjAsImV4cCI6MjAwNjgwNDk2MH0.lQ3QP58TP1avQ8NgHFJnrXeA_i6NpK440Mw_hE8RZbQ',
   );
+  await FlutterMapTileCaching.initialise();
+  await FMTC.instance('mapStore').manage.createAsync();
 
   runApp(const ProviderScope(child: MyApp()));
 }

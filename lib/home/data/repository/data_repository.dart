@@ -27,13 +27,14 @@ class DataRepository extends Repository {
 
   @override
   Future<ImageLocationUseCase?> getLocationsFromPosts(
-      List<String> permalinks) async {
+      List<String> permalinks, List<String> mediaUrls) async {
     final localData = await LocalData().getLocationsFromStorage();
     if (localData != null) {
       final usecase = ImageLocationUseCase(localData);
       return usecase;
     } else {
-      final data = await RemoteData().getLocationsFromPosts(permalinks);
+      final data =
+          await RemoteData().getLocationsFromPosts(permalinks, mediaUrls);
       if (data != null) {
         await LocalData().writeLocationsToStorage(data);
         final usecase = ImageLocationUseCase(data);
@@ -48,7 +49,8 @@ class DataRepository extends Repository {
     final imagesData = await getImagesFromProfile(accessToken);
     if (imagesData != null) {
       final locationData = await getLocationsFromPosts(
-          imagesData.data.map((e) => e.permalink).toList());
+          imagesData.data.map((e) => e.permalink).toList(),
+          imagesData.data.map((e) => e.mediaUrl).toList());
       final usecase = PostsDataUseCase(locationData, imagesData);
       return usecase;
     }

@@ -18,11 +18,11 @@ class LocationsPage extends ConsumerWidget {
       body: ref.watch(getPostsDataProvider(userModel.accessToken)).when(
           data: (value) {
             if (value != null) {
-              if (value.locationData != null) {
+              if (value.$1?.locationData != null) {
                 List cities = [];
                 List countries = [];
 
-                for (var element in value.locationData!.data) {
+                for (var element in value.$1!.locationData!.data) {
                   final location = element.loadedLocation.split(",");
                   if (location.length >= 2) {
                     if (!cities.contains(location[1])) {
@@ -49,53 +49,53 @@ class LocationsPage extends ConsumerWidget {
                   cityForm = "городa";
                 }
 
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Вы посетили ${cities.length} $cityForm:",
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w600)),
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: cities.length,
-                              itemBuilder: (context, index) {
-                                return Text(
-                                    cities[index]
-                                        .toString()
-                                        .replaceFirst(" ", ""),
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500));
-                              },
-                            ),
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Вы посетили ${cities.length} $cityForm:",
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w600)),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: cities.length,
+                            itemBuilder: (context, index) {
+                              return Text(
+                                  cities[index]
+                                      .toString()
+                                      .replaceFirst(" ", ""),
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500));
+                            },
                           ),
-                          Text("в ${countries.length} $countryForm:",
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w600)),
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: countries.length,
-                              itemBuilder: (context, index) {
-                                return Text(countries[index],
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500));
-                              },
-                            ),
+                        ),
+                        Text("в ${countries.length} $countryForm:",
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w600)),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: countries.length,
+                            itemBuilder: (context, index) {
+                              return Text(countries[index],
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500));
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
+                  ),
+                );
               }
             }
             return const Text("Something went wrong");

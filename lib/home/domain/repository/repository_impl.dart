@@ -4,6 +4,9 @@ import '../usecases/posts_images_usecase.dart';
 
 abstract class Repository {
   Future<PostsImagesUseCase?> getImagesFromProfile(String accessToken);
-  Future<ImageLocationUseCase?> getLocationsFromPosts(List<String> permalinks);
+
+  Future<ImageLocationUseCase?> getLocationsFromPosts(
+      List<String> permalinks, List<String> mediaUrls);
+
   Future<PostsDataUseCase?> getPostsData(String accessToken);
 }

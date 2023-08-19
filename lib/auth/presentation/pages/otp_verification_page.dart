@@ -47,11 +47,15 @@ class OtpVerificationPage extends ConsumerWidget {
                         decoration: BoxDecoration(
                           border: Border.all(
                               color:
-                                  ref.watch(signupProvider).isValidCode != null
-                                      ? ref.watch(signupProvider).isValidCode!
-                                          ? Colors.blue
-                                          : Colors.redAccent
-                                      : Colors.blue),
+                              ref
+                                  .watch(signupProvider)
+                                  .isValidCode != null
+                                  ? ref
+                                  .watch(signupProvider)
+                                  .isValidCode!
+                                  ? Colors.blue
+                                  : Colors.redAccent
+                                  : Colors.blue),
                         ),
                         margin: const EdgeInsets.only(right: 26)),
                   ),
