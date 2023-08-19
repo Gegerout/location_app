@@ -92,20 +92,23 @@ class SigninPage extends ConsumerWidget {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    HomePage(userModel: value,)), (route) => false);
-                      }
-                      else {
-                        showDialog(context: context, builder: (context) => AlertDialog(
-                          title: const Text("Wrong credentials"),
-                          actions: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Ok"))
-                          ],
-                        ));
+                                builder: (context) => HomePage(
+                                      userModel: value,
+                                    )),
+                            (route) => false);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const Text("Wrong credentials"),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Ok"))
+                                  ],
+                                ));
                       }
                     });
                   },
