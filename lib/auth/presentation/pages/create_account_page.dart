@@ -85,22 +85,25 @@ class CreateAccountPage extends ConsumerWidget {
                   onPressed: () {
                     ref
                         .read(signupProvider.notifier)
-                        .createUserAccount(emailCont.text, passwordCont.text).then((value) {
-                      if(value) {
+                        .createUserAccount(emailCont.text, passwordCont.text)
+                        .then((value) {
+                      if (value) {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationPage(email: emailCont.text)));
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddInstagramPage(emailCont.text)));
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) => AddInstagramPage(emailCont.text)));
                       }
                       else {
-                        showDialog(context: context, builder: (context) => AlertDialog(
-                          title: const Text("Something went wrong"),
-                          actions: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Ok"))
-                          ],
-                        ));
+                        showDialog(context: context, builder: (context) =>
+                            AlertDialog(
+                              title: const Text("Something went wrong"),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Ok"))
+                              ],
+                            ));
                       }
                     });
                   },

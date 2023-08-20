@@ -21,7 +21,8 @@ class AddInstagramPage extends ConsumerWidget {
                 onPressed: () {
                   ref.read(signupProvider.notifier).addInstagramAccount();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoadingPage(email)));
+                      MaterialPageRoute(
+                          builder: (context) => LoadingPage(email)));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
