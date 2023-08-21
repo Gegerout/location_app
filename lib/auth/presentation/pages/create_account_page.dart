@@ -28,6 +28,18 @@ class CreateAccountPage extends ConsumerWidget {
                       scale: 4,
                       fit: BoxFit.cover,
                     )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 36),
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 28,
+                        color: Colors.white,
+                      )),
+                ),
                 const Padding(
                   padding: EdgeInsets.only(left: 36, bottom: 44),
                   child: Align(
@@ -179,12 +191,12 @@ class CreateAccountPage extends ConsumerWidget {
             child: Row(
               children: [
                 SizedBox(
-                  height: 200,
+                    height: 200,
                     child: Image.asset(
-                  "assets/images/signup_bottom.png",
-                  scale: 4,
+                      "assets/images/signup_bottom.png",
+                      scale: 4,
                       fit: BoxFit.cover,
-                )),
+                    )),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(top: 56),
