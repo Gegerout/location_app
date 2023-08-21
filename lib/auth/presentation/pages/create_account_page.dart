@@ -161,6 +161,7 @@ class CreateAccountPage extends ConsumerWidget {
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF6930),
+                        elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40))),
                     child: Image.asset(

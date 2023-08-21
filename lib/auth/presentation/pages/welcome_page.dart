@@ -43,6 +43,7 @@ class WelcomePage extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFFF6930),
+                            elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         child: const Text("Create account",
@@ -62,6 +63,7 @@ class WelcomePage extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFF80261),
+                            elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         child: const Text("Sign in",
