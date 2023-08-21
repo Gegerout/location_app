@@ -199,23 +199,26 @@ class CreateAccountPage extends ConsumerWidget {
                               color: const Color(0xFFFF6930).withOpacity(0.52)),
                         ),
                       ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SigninPage()));
-                          },
-                          style: TextButton.styleFrom(
-                              padding: const EdgeInsets.only(left: 6)),
-                          child: const Text(
-                            "Sign In",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontFamily: "Futura BT",
-                                fontSize: 18,
-                                color: Colors.black),
-                          ))
+                      SizedBox(
+                        width: 78,
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SigninPage()));
+                            },
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.only(left: 6)),
+                            child: const Text(
+                              "Sign In ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: "Futura BT",
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            )),
+                      )
                     ],
                   ),
                 )

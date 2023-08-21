@@ -48,8 +48,9 @@ class WelcomePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20))),
                         child: const Text("Create account",
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: "Futura BT",
+                                fontSize: 22,
                                 color: Colors.white))),
                   ),
                   const SizedBox(height: 30),
@@ -68,8 +69,9 @@ class WelcomePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20))),
                         child: const Text("Sign in",
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: "Futura BT",
+                                fontSize: 22,
                                 color: Colors.white))),
                   ),
                 ],

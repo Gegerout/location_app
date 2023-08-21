@@ -182,22 +182,25 @@ class SigninPage extends ConsumerWidget {
                                   .withOpacity(0.52)),
                         ),
                       ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateAccountPage()));
-                          },
-                          style: TextButton.styleFrom(
-                              padding: const EdgeInsets.only(left: 6)),
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 18,
-                                color: Colors.black),
-                          ))
+                      SizedBox(
+                        width: 78,
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateAccountPage()));
+                            },
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.only(left: 6)),
+                            child: const Text(
+                              "Sign Up ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            )),
+                      )
                     ],
                   ),
                   const Spacer(),
@@ -218,7 +221,7 @@ class SigninPage extends ConsumerWidget {
                           style: TextButton.styleFrom(
                               padding: const EdgeInsets.only(left: 9)),
                           child: const Text(
-                            "Forgot Passwords",
+                            "Forgot Password",
                             style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: 18,
