@@ -205,14 +205,14 @@ class CreateAccountPage extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 25),
                         child: Container(
-                          width: 78,
+                          width: 70,
                           height: 9,
                           decoration: BoxDecoration(
                               color: const Color(0xFFFF6930).withOpacity(0.52)),
                         ),
                       ),
                       SizedBox(
-                        width: 78,
+                        width: 70,
                         child: TextButton(
                             onPressed: () {
                               Navigator.push(

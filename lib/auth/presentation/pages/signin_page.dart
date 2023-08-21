@@ -213,9 +213,10 @@ class SigninPage extends ConsumerWidget {
                         style: TextButton.styleFrom(
                             padding: const EdgeInsets.only(left: 6)),
                         child: const Text(
-                          "Sign Up",
+                          "Sign Up ",
                           style: TextStyle(
                               fontWeight: FontWeight.w900,
+                              fontFamily: "Futura BT",
                               fontSize: 18,
                               color: Colors.black),
                         )),
@@ -227,14 +228,14 @@ class SigninPage extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Container(
-                        width: 180,
+                        width: 147,
                         height: 9,
                         decoration: BoxDecoration(
                             color: const Color(0xFFFF0000).withOpacity(0.75)),
                       ),
                     ),
                     SizedBox(
-                      width: 180,
+                      width: 147,
                       child: TextButton(
                           onPressed: () {},
                           style: TextButton.styleFrom(
@@ -243,6 +244,7 @@ class SigninPage extends ConsumerWidget {
                             "Forgot Password",
                             style: TextStyle(
                                 fontWeight: FontWeight.w900,
+                                fontFamily: "Futura BT",
                                 fontSize: 18,
                                 color: Colors.black),
                           )),
