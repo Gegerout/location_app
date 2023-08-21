@@ -29,7 +29,7 @@ class SigninPage extends ConsumerWidget {
                         fit: BoxFit.cover,
                       )),
                   Padding(
-                    padding: const EdgeInsets.only(top: 36),
+                    padding: const EdgeInsets.only(top: 46, left: 8),
                     child: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -206,7 +206,7 @@ class SigninPage extends ConsumerWidget {
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.only(left: 6)),
                             child: const Text(
-                              "Sign Up ",
+                              "Sign Up",
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: 18,
@@ -221,24 +221,27 @@ class SigninPage extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 25),
                         child: Container(
-                          width: 159,
+                          width: 180,
                           height: 9,
                           decoration: BoxDecoration(
                               color: const Color(0xFFFF0000)
                                   .withOpacity(0.75)),
                         ),
                       ),
-                      TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                              padding: const EdgeInsets.only(left: 9)),
-                          child: const Text(
-                            "Forgot Password",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 18,
-                                color: Colors.black),
-                          ))
+                      SizedBox(
+                        width: 180,
+                        child: TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.only(left: 9)),
+                            child: const Text(
+                              "Forgot Password",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            )),
+                      )
                     ],
                   )
                 ],

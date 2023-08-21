@@ -29,7 +29,7 @@ class CreateAccountPage extends ConsumerWidget {
                       fit: BoxFit.cover,
                     )),
                 Padding(
-                  padding: const EdgeInsets.only(top: 36),
+                  padding: const EdgeInsets.only(top: 46, left: 8),
                   child: IconButton(
                       onPressed: () {
                         Navigator.pop(context);
@@ -41,7 +41,7 @@ class CreateAccountPage extends ConsumerWidget {
                       )),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(left: 36, bottom: 44),
+                  padding: EdgeInsets.only(left: 36, bottom: 52),
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
