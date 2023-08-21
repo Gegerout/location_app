@@ -228,7 +228,7 @@ class SigninPage extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Container(
-                        width: 147,
+                        width: 153,
                         height: 9,
                         decoration: BoxDecoration(
                             color: const Color(0xFFFF0000).withOpacity(0.75)),
