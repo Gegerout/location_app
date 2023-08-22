@@ -11,6 +11,7 @@ class AddInstagramPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFEDE7),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(left: 24, right: 24),
