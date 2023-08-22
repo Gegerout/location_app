@@ -15,33 +15,20 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile page"),
+        title: Text(userModel.username),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: CachedNetworkImage(
-                              imageUrl: userModel.profilePicture))),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    userModel.username,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(height: 20),
+            ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: CachedNetworkImage(
+                        imageUrl: userModel.profilePicture))),
+            const SizedBox(height: 20),
             ref.watch(getPostsDataProvider(userModel.accessToken)).when(
                 data: (value) {
                   if (value != null) {
