@@ -29,7 +29,11 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
-        fontFamily: "Futura BT"
+        fontFamily: "Futura BT",
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Colors.white
+        )
       ),
       home: Scaffold(
         body: ref.watch(getUserDataProvider).when(
