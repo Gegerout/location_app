@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.subtitles),
+            icon: Icon(Icons.home_filled),
             label: 'Locations',
           ),
           BottomNavigationBarItem(

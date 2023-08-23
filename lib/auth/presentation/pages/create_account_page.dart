@@ -14,7 +14,6 @@ class CreateAccountPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xFFFFEDE7),
       body: Column(
         children: [
           SizedBox(
@@ -64,7 +63,9 @@ class CreateAccountPage extends ConsumerWidget {
               width: double.infinity,
               height: 60,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black)),
               child: Center(
                 child: TextFormField(
                   controller: emailCont,
@@ -97,7 +98,9 @@ class CreateAccountPage extends ConsumerWidget {
               width: double.infinity,
               height: 60,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black)),
               child: Center(
                 child: TextFormField(
                   controller: passwordCont,
@@ -144,6 +147,8 @@ class CreateAccountPage extends ConsumerWidget {
                   height: 64,
                   child: ElevatedButton(
                     onPressed: () {
+                      ref.read(signupProvider.notifier).isLoading = true;
+                      print(ref.watch(signupProvider).isLoading);
                       ref
                           .read(signupProvider.notifier)
                           .createUserAccount(emailCont.text, passwordCont.text)
@@ -156,6 +161,7 @@ class CreateAccountPage extends ConsumerWidget {
                                   builder: (context) =>
                                       AddInstagramPage(emailCont.text)));
                         } else {
+                          //ref.read(signupProvider.notifier).isLoading = false;
                           showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
@@ -176,10 +182,15 @@ class CreateAccountPage extends ConsumerWidget {
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40))),
-                    child: Image.asset(
-                      "assets/images/auth_arrow.png",
-                      scale: 4,
-                    ),
+                    child: ref.watch(signupProvider).isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ))
+                        : Image.asset(
+                            "assets/images/auth_arrow.png",
+                            scale: 4,
+                          ),
                   ),
                 ),
               ],

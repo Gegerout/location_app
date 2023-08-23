@@ -13,7 +13,6 @@ class SigninPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFEDE7),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -64,7 +63,9 @@ class SigninPage extends ConsumerWidget {
                 width: double.infinity,
                 height: 60,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.white),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black)),
                 child: Center(
                   child: TextFormField(
                     controller: emailCont,
@@ -97,7 +98,9 @@ class SigninPage extends ConsumerWidget {
                 width: double.infinity,
                 height: 60,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.white),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black)),
                 child: Center(
                   child: TextFormField(
                     controller: passwordCont,
