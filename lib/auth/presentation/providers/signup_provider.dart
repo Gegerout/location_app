@@ -35,5 +35,6 @@ class SignupNotifier extends ChangeNotifier {
 
   void changeLoading(bool value) async {
     isLoading = value;
+    notifyListeners();
   }
 }

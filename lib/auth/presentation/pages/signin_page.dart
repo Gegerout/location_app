@@ -147,6 +147,7 @@ class SigninPage extends ConsumerWidget {
                     height: 64,
                     child: ElevatedButton(
                       onPressed: () {
+                        ref.read(signinProvider.notifier).changeLoading(true);
                         ref
                             .read(signinProvider.notifier)
                             .signinToAccount(emailCont.text, passwordCont.text)
@@ -161,6 +162,7 @@ class SigninPage extends ConsumerWidget {
                                         )),
                                 (route) => false);
                           } else {
+                            ref.read(signinProvider.notifier).changeLoading(false);
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -177,11 +179,17 @@ class SigninPage extends ConsumerWidget {
                         });
                       },
                       style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
                           backgroundColor: const Color(0xFFFF6930),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40))),
-                      child: Image.asset(
+                      child: ref.watch(signinProvider).isLoading
+                          ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ))
+                          : Image.asset(
                         "assets/images/auth_arrow.png",
                         scale: 4,
                       ),

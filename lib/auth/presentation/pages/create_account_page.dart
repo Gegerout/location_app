@@ -147,8 +147,7 @@ class CreateAccountPage extends ConsumerWidget {
                   height: 64,
                   child: ElevatedButton(
                     onPressed: () {
-                      ref.read(signupProvider.notifier).isLoading = true;
-                      print(ref.watch(signupProvider).isLoading);
+                      ref.read(signupProvider.notifier).changeLoading(true);
                       ref
                           .read(signupProvider.notifier)
                           .createUserAccount(emailCont.text, passwordCont.text)
@@ -161,7 +160,7 @@ class CreateAccountPage extends ConsumerWidget {
                                   builder: (context) =>
                                       AddInstagramPage(emailCont.text)));
                         } else {
-                          //ref.read(signupProvider.notifier).isLoading = false;
+                          ref.read(signupProvider.notifier).changeLoading(false);
                           showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
@@ -178,15 +177,16 @@ class CreateAccountPage extends ConsumerWidget {
                       });
                     },
                     style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
                         backgroundColor: const Color(0xFFFF6930),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40))),
                     child: ref.watch(signupProvider).isLoading
                         ? const Center(
-                            child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ))
+                              child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ))
                         : Image.asset(
                             "assets/images/auth_arrow.png",
                             scale: 4,

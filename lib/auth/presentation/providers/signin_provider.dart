@@ -7,11 +7,18 @@ import '../../data/models/user_model.dart';
 final signinProvider = ChangeNotifierProvider((ref) => SigninNotifier());
 
 class SigninNotifier extends ChangeNotifier {
+  bool isLoading = false;
+
   Future<UserModel?> signinToAccount(String email, String password) async {
     final data = await DataRepository().signinToAccount(email, password);
     if(data != null) {
       return data.data;
     }
     return null;
+  }
+
+  void changeLoading(bool value) async {
+    isLoading = value;
+    notifyListeners();
   }
 }
