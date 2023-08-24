@@ -155,7 +155,7 @@ class MapPage extends ConsumerWidget {
 
             return FlutterMap(
               options: MapOptions(
-                  minZoom: 11,
+                  minZoom: 6,
                   maxZoom: 17,
                   interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
                   center: LatLng(value.$2.latitude, value.$2.longitude),
