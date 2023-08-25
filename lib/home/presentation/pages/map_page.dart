@@ -38,16 +38,17 @@ class MapPage extends ConsumerWidget {
                   });
                 } else {
                   final List permalinks =
-                      cities["${element.latitude}, ${element.longitude}"]
-                          ["urls"];
+                  cities["${element.latitude}, ${element.longitude}"]
+                  ["urls"];
                   permalinks.add(element.mediaUrl);
                   cities.update(
                       "${element.latitude}, ${element.longitude}",
-                      (value) => {
-                            "urls": permalinks,
-                            "city": "${location[1]}, ${location[0]}",
-                            "point": [element.latitude, element.longitude]
-                          });
+                          (value) =>
+                      {
+                        "urls": permalinks,
+                        "city": "${location[1]}, ${location[0]}",
+                        "point": [element.latitude, element.longitude]
+                      });
                 }
               } else {
                 cities.addAll({
@@ -63,14 +64,16 @@ class MapPage extends ConsumerWidget {
             print(cities);
 
             List<Marker> markers = value.$1!.locationData!.data
-                .map((e) => Marker(
+                .map((e) =>
+                Marker(
                     point: LatLng(e.latitude, e.longitude),
-                    builder: (context) => InkWell(
+                    builder: (context) =>
+                        InkWell(
                           onTap: () {
                             final citiesData = cities.values
                                 .where((element) =>
-                                    element["point"][0] == e.latitude &&
-                                    element["point"][1] == e.longitude)
+                            element["point"][0] == e.latitude &&
+                                element["point"][1] == e.longitude)
                                 .first;
                             showModalBottomSheet(
                                 context: context,
@@ -90,10 +93,10 @@ class MapPage extends ConsumerWidget {
                                           child: GridView.builder(
                                               shrinkWrap: true,
                                               gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 4),
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 4),
                                               itemCount:
-                                                  citiesData["urls"].length,
+                                              citiesData["urls"].length,
                                               itemBuilder: (context, index) {
                                                 return InkWell(
                                                   onTap: () {
@@ -101,34 +104,34 @@ class MapPage extends ConsumerWidget {
                                                         context,
                                                         CachedNetworkImageProvider(
                                                             citiesData["urls"]
-                                                                [index]));
+                                                            [index]));
                                                   },
                                                   child: SizedBox(
                                                       height: 100,
                                                       width: 100,
                                                       child: CachedNetworkImage(
                                                         imageUrl:
-                                                            citiesData["urls"]
-                                                                [index],
+                                                        citiesData["urls"]
+                                                        [index],
                                                         fit: BoxFit.cover,
                                                         progressIndicatorBuilder:
                                                             (context, url,
-                                                                    downloadProgress) =>
-                                                                Center(
-                                                          child: SizedBox(
-                                                            height: 40,
-                                                            width: 40,
-                                                            child: CircularProgressIndicator(
-                                                                value: downloadProgress
-                                                                    .progress),
-                                                          ),
-                                                        ),
+                                                            downloadProgress) =>
+                                                            Center(
+                                                              child: SizedBox(
+                                                                height: 40,
+                                                                width: 40,
+                                                                child: CircularProgressIndicator(
+                                                                    value: downloadProgress
+                                                                        .progress),
+                                                              ),
+                                                            ),
                                                         errorWidget: (context,
-                                                                url, error) =>
-                                                            const Icon(
+                                                            url, error) =>
+                                                        const Icon(
                                                           Icons.error,
                                                           color:
-                                                              Colors.redAccent,
+                                                          Colors.redAccent,
                                                         ),
                                                       )),
                                                 );
@@ -147,24 +150,26 @@ class MapPage extends ConsumerWidget {
 
             markers.add(Marker(
                 point: LatLng(value.$2.latitude, value.$2.longitude),
-                builder: (context) => const Icon(
-                      Icons.person,
-                      size: 30,
-                      color: Colors.blue,
-                    )));
+                builder: (context) =>
+                const Icon(
+                  Icons.person,
+                  size: 30,
+                  color: Colors.blue,
+                )));
 
             return FlutterMap(
               options: MapOptions(
                   minZoom: 6,
                   maxZoom: 17,
-                  interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                  interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag
+                      .drag,
                   center: LatLng(value.$2.latitude, value.$2.longitude),
                   zoom: 14),
               children: [
                 TileLayer(
                   tileProvider: FMTC.instance('mapStore').getTileProvider(),
                   urlTemplate:
-                      "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                  "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                   userAgentPackageName: 'com.locationapp',
                 ),
                 MarkerLayer(
@@ -185,9 +190,10 @@ class MapPage extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(
-                child: CircularProgressIndicator(),
-              )),
+          loading: () =>
+          const Center(
+            child: CircularProgressIndicator(),
+          )),
     );
   }
 }
