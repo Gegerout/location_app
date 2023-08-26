@@ -68,7 +68,8 @@ class ProfilePage extends ConsumerWidget {
                             width: 20,
                           ),
                           Text(
-                            "${cities.length} $cityForm\n${countries.length} $countryForm",
+                            "${cities.length} $cityForm\n${countries
+                                .length} $countryForm",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20),
                           ),
@@ -79,8 +80,8 @@ class ProfilePage extends ConsumerWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4),
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4),
                         itemCount: value.$1!.imagesData!.data.length,
                         itemBuilder: (context, index) {
                           return InkWell(
@@ -100,16 +101,16 @@ class ProfilePage extends ConsumerWidget {
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) =>
-                                          Center(
-                                    child: SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: CircularProgressIndicator(
-                                          value: downloadProgress.progress),
-                                    ),
-                                  ),
+                                      Center(
+                                        child: SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                        ),
+                                      ),
                                   errorWidget: (context, url, error) =>
-                                      const Icon(
+                                  const Icon(
                                     Icons.error,
                                     color: Colors.redAccent,
                                   ),
@@ -133,8 +134,9 @@ class ProfilePage extends ConsumerWidget {
                 ],
               );
             },
-            loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                )));
+            loading: () =>
+            const Center(
+              child: CircularProgressIndicator(),
+            )));
   }
 }

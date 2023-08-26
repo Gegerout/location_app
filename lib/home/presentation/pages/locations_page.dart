@@ -112,9 +112,10 @@ class LocationsPage extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(
-                child: CircularProgressIndicator(),
-              )),
+          loading: () =>
+          const Center(
+            child: CircularProgressIndicator(),
+          )),
     );
   }
 }
