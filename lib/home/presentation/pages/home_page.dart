@@ -22,9 +22,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     pages = [
-      ProfilePage(userModel: widget.userModel),
       LocationsPage(userModel: widget.userModel),
-      MapPage(userModel: widget.userModel)
+      MapPage(userModel: widget.userModel),
+      ProfilePage(userModel: widget.userModel)
     ];
   }
 
@@ -39,18 +39,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: pages.elementAt(currentIndex),
       bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.image),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.subtitles),
+            icon: Icon(Icons.home_filled),
             label: 'Locations',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         currentIndex: currentIndex,

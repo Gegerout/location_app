@@ -11,6 +11,7 @@ Future<void> main() async {
     url: 'https://rrtxhumsrdoxrnqaohnc.supabase.co',
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJydHhodW1zcmRveHJucWFvaG5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTEyMjg5NjAsImV4cCI6MjAwNjgwNDk2MH0.lQ3QP58TP1avQ8NgHFJnrXeA_i6NpK440Mw_hE8RZbQ',
   );
+  WidgetsFlutterBinding.ensureInitialized();
   await FlutterMapTileCaching.initialise();
   await FMTC.instance('mapStore').manage.createAsync();
 
@@ -26,8 +27,13 @@ class MyApp extends ConsumerWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
+        fontFamily: "Futura BT",
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Colors.white
+        )
       ),
       home: Scaffold(
         body: ref.watch(getUserDataProvider).when(

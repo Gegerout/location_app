@@ -8,6 +8,7 @@ final signupProvider = ChangeNotifierProvider((ref) => SignupNotifier());
 
 class SignupNotifier extends ChangeNotifier {
   bool? isValidCode;
+  bool isLoading = false;
 
   Future<void> addInstagramAccount() async {
     await DataRepository().addInstagramAccount();
@@ -30,5 +31,10 @@ class SignupNotifier extends ChangeNotifier {
       return data.data;
     }
     return null;
+  }
+
+  void changeLoading(bool value) async {
+    isLoading = value;
+    notifyListeners();
   }
 }

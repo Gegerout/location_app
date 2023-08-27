@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location_app/auth/presentation/providers/signup_provider.dart';
 import 'package:location_app/home/presentation/pages/home_page.dart';
-import 'package:receive_intent/receive_intent.dart';
 import 'package:uni_links/uni_links.dart';
 
 class LoadingPage extends ConsumerStatefulWidget {

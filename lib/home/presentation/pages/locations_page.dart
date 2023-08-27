@@ -13,7 +13,7 @@ class LocationsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Locations page"),
+        title: const Text("Geolocation App"),
       ),
       body: ref.watch(getPostsDataProvider(userModel.accessToken)).when(
           data: (value) {
@@ -46,7 +46,7 @@ class LocationsPage extends ConsumerWidget {
                 } else if (cities.length.toString().endsWith("2") ||
                     cities.length.toString().endsWith("3") ||
                     cities.length.toString().endsWith("4")) {
-                  cityForm = "городa";
+                  cityForm = "города";
                 }
 
                 return SingleChildScrollView(
@@ -112,9 +112,10 @@ class LocationsPage extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(
-                child: CircularProgressIndicator(),
-              )),
+          loading: () =>
+          const Center(
+            child: CircularProgressIndicator(),
+          )),
     );
   }
 }
