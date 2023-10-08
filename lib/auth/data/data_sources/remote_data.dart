@@ -9,7 +9,7 @@ class RemoteData {
   Future<void> addInstagramAccount() async {
     await launchUrl(
         Uri.parse(
-            "https://api.instagram.com/oauth/authorize?client_id=654282726370699&redirect_uri=https://evgeniymuravyov.pythonanywhere.com/auth&scope=user_profile,user_media&response_type=code"),
+            "https://api.instagram.com/oauth/authorize?client_id=654282726370699&redirect_uri=&scope=user_profile,user_media&response_type=code"),
         mode: LaunchMode.externalApplication);
   }
 
@@ -33,7 +33,7 @@ class RemoteData {
         final getProfilePicture =
         await dio.get("https://api.lamadava.com/a1/user", queryParameters: {
           "username": dataResult.data["username"],
-          "access_key": "CiCkPmQeOITDhlcNFUAbAuI0YHl5n3Lp"
+          "access_key": ""
         });
         final userModel = UserModel(
             userId,
