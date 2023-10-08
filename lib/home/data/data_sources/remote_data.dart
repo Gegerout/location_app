@@ -29,7 +29,7 @@ class RemoteData {
       final code = permalinks[i].split("/")[4];
       final apiRes = await dio.get(apiUrl, queryParameters: {
         "code": code,
-        "access_key": "CiCkPmQeOITDhlcNFUAbAuI0YHl5n3Lp"
+        "access_key": ""
       });
       if(apiRes.statusCode == 200) {
         try {
