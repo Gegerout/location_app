@@ -20,7 +20,7 @@ class RemoteData {
     final accessResult =
     await dio.get("${apiUrl}access_token", queryParameters: {
       "grant_type": "ig_exchange_token",
-      "client_secret": "0a9a45db5c6d7181db1fa791d3ee87eb",
+      "client_secret": "",
       "access_token": accessToken
     });
     if (accessResult.statusCode == 200) {
